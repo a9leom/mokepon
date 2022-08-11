@@ -21,6 +21,27 @@ function seleccionarMascotaJugador() {
     } else {
         alert('Debes seleccionar una mascota')
     }
+
+    // Llamando función
+    seleccionarMascotaEnemigo()
+}
+// Función que se ejecuta juste después que el jugador seleccione mascota
+function seleccionarMascotaEnemigo() {
+    let ataqueAleatorio = aleatorio(1,3)
+    let spanMascotaEnemigo = document.getElementById('mascota-enemigo')
+
+    if (ataqueAleatorio == 1) {
+        spanMascotaEnemigo.innerHTML = 'Hipodoge'
+    } else if (ataqueAleatorio == 2) {
+        spanMascotaEnemigo.innerHTML = 'Capipepo'
+    } else {
+        spanMascotaEnemigo.innerHTML = ' Ratigüeya'
+    }
+}
+
+// Función de aletoriedad
+function aleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 /* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado */
