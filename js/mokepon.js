@@ -1,9 +1,22 @@
+// Funciones globales
+let ataqueJugador
+
 // Función a ejecutar tras haberse cargado el HTML
 function iniciarJuego() {
     // Seleccionando desde JS un elemento de HTML
     let botonMascotaJugador = document.getElementById("boton-mascota")
     // Escuchando evento click del elemento botón
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
+
+    // Variables selección de ataque
+    let botonFuego = document.getElementById('boton-fuego')
+    let botonAgua = document.getElementById('boton-agua')
+    let botonTierra = document.getElementById('boton-tierra')
+
+    // Escuchando evento click del botones de selección ataque
+    botonFuego.addEventListener('click', ataqueFuego)
+    botonAgua.addEventListener('click', ataqueAgua)
+    botonTierra.addEventListener('click', ataqueTierra)
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
 function seleccionarMascotaJugador() {
@@ -25,7 +38,7 @@ function seleccionarMascotaJugador() {
     // Llamando función
     seleccionarMascotaEnemigo()
 }
-// Función que se ejecuta juste después que el jugador seleccione mascota
+// Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
     let ataqueAleatorio = aleatorio(1,3)
     let spanMascotaEnemigo = document.getElementById('mascota-enemigo')
@@ -38,7 +51,19 @@ function seleccionarMascotaEnemigo() {
         spanMascotaEnemigo.innerHTML = ' Ratigüeya'
     }
 }
-
+// Funciones de ataque
+function ataqueFuego() {
+    ataqueJugador = 'Fuego'
+    alert(ataqueJugador)
+}
+function ataqueAgua() {
+    ataqueJugador = 'Agua'
+    alert(ataqueJugador)
+}
+function ataqueTierra() {
+    ataqueJugador = 'Tierra'
+    alert(ataqueJugador)
+}
 // Función de aletoriedad
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
