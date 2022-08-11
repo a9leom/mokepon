@@ -1,5 +1,6 @@
 // Funciones globales
 let ataqueJugador
+let ataqueEnemigo
 
 // Función a ejecutar tras haberse cargado el HTML
 function iniciarJuego() {
@@ -40,12 +41,12 @@ function seleccionarMascotaJugador() {
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
-    let ataqueAleatorio = aleatorio(1,3)
+    let mascotaAleatorio = aleatorio(1,3)
     let spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 
-    if (ataqueAleatorio == 1) {
+    if (mascotaAleatorio == 1) {
         spanMascotaEnemigo.innerHTML = 'Hipodoge'
-    } else if (ataqueAleatorio == 2) {
+    } else if (mascotaAleatorio == 2) {
         spanMascotaEnemigo.innerHTML = 'Capipepo'
     } else {
         spanMascotaEnemigo.innerHTML = ' Ratigüeya'
@@ -54,15 +55,27 @@ function seleccionarMascotaEnemigo() {
 // Funciones de ataque
 function ataqueFuego() {
     ataqueJugador = 'Fuego'
-    alert(ataqueJugador)
+    ataqueAleatorioEnemigo()
 }
 function ataqueAgua() {
     ataqueJugador = 'Agua'
-    alert(ataqueJugador)
+    ataqueAleatorioEnemigo()
 }
 function ataqueTierra() {
     ataqueJugador = 'Tierra'
-    alert(ataqueJugador)
+    ataqueAleatorioEnemigo()
+}
+// Función para asignar ataque enemigo
+function ataqueAleatorioEnemigo() {
+    let ataqueAleatorio = aleatorio(1,3)
+
+    if (ataqueAleatorio == 1) {
+        ataqueEnemigo = 'FUEGO'
+    } else if (ataqueAleatorio == 2) {
+        ataqueEnemigo = 'AGUA'
+    } else {
+        ataqueEnemigo = 'TIERRA'
+    }
 }
 // Función de aletoriedad
 function aleatorio(min, max) {
