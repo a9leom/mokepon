@@ -2,7 +2,7 @@
 let ataqueJugador
 let ataqueEnemigo
 
-// Función a ejecutar tras haberse cargado el HTML
+// Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
     // Seleccionando desde JS un elemento de HTML
     let botonMascotaJugador = document.getElementById("boton-mascota")
@@ -76,11 +76,25 @@ function ataqueAleatorioEnemigo() {
     } else {
         ataqueEnemigo = 'TIERRA'
     }
+
+    // Momento de para llamar a la función de crearMensaje
+    crearMensaje()
+}
+// Función para insertar nuevos mensajes en la sección mensaje
+function crearMensaje() {
+    // Método de manipulación del DOM
+    let sectionMensajes = document.getElementById('mensajes')
+    // Se crea un nuevo elemento, un párrafo en este caso
+    let parrafo = document.createElement('p')
+    // Se define el mensaje del párrafo utilizando atributo innerHTML
+    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ', la mascota del enemigo atacó con ' + ataqueEnemigo + ' - PENDIENTE'
+    // Se inserta el elemento (párrafo) al elemento especificado (section)
+    sectionMensajes.appendChild(parrafo)
 }
 // Función de aletoriedad
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-/* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado */
+/* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado 1 */
 window.addEventListener('load', iniciarJuego)
