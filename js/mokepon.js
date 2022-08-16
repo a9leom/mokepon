@@ -1,6 +1,8 @@
 // Funciones globales
 let ataqueJugador
 let ataqueEnemigo
+let vidasJugador = 3
+let vidasEnemigo = 3
 
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
@@ -82,12 +84,19 @@ function ataqueAleatorioEnemigo() {
 }
 // Función combate
 function combate() {
+    let spanVidasJugador = document.getElementById('vidas-jugador')
+    let spanVidasEnemigo = document.getElementById('vidas-enemigo')
+
     if(ataqueEnemigo == ataqueJugador) {
         crearMensaje("EMPATE 😑")
     } else if((ataqueJugador == 'FUEGO' && ataqueEnemigo == 'TIERRA') || (ataqueJugador == 'AGUA' && ataqueEnemigo == 'FUEGO') || (ataqueJugador == 'TIERRA' && ataqueEnemigo == 'AGUA')) {
         crearMensaje("GANASTE 🎉")
+        vidasEnemigo--
+        spanVidasEnemigo.innerHTML = vidasEnemigo
     } else {
         crearMensaje("PERDISTE 😭")
+        vidasJugador--
+        spanVidasJugador.innerHTML = vidasJugador
     }
 }
 // Función para insertar nuevos mensajes en la sección mensaje
