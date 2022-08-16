@@ -54,15 +54,15 @@ function seleccionarMascotaEnemigo() {
 }
 // Funciones de ataque
 function ataqueFuego() {
-    ataqueJugador = 'Fuego'
+    ataqueJugador = 'FUEGO'
     ataqueAleatorioEnemigo()
 }
 function ataqueAgua() {
-    ataqueJugador = 'Agua'
+    ataqueJugador = 'AGUA'
     ataqueAleatorioEnemigo()
 }
 function ataqueTierra() {
-    ataqueJugador = 'Tierra'
+    ataqueJugador = 'TIERRA'
     ataqueAleatorioEnemigo()
 }
 // Función para asignar ataque enemigo
@@ -77,17 +77,27 @@ function ataqueAleatorioEnemigo() {
         ataqueEnemigo = 'TIERRA'
     }
 
-    // Momento de para llamar a la función de crearMensaje
-    crearMensaje()
+    // Momento de para llamar a la función de combate
+    combate()
+}
+// Función combate
+function combate() {
+    if(ataqueEnemigo == ataqueJugador) {
+        crearMensaje("EMPATE 😑")
+    } else if((ataqueJugador == 'FUEGO' && ataqueEnemigo == 'TIERRA') || (ataqueJugador == 'AGUA' && ataqueEnemigo == 'FUEGO') || (ataqueJugador == 'TIERRA' && ataqueEnemigo == 'AGUA')) {
+        crearMensaje("GANASTE 🎉")
+    } else {
+        crearMensaje("PERDISTE 😭")
+    }
 }
 // Función para insertar nuevos mensajes en la sección mensaje
-function crearMensaje() {
+function crearMensaje(resultado) {
     // Método de manipulación del DOM
     let sectionMensajes = document.getElementById('mensajes')
     // Se crea un nuevo elemento, un párrafo en este caso
     let parrafo = document.createElement('p')
     // Se define el mensaje del párrafo utilizando atributo innerHTML
-    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ', la mascota del enemigo atacó con ' + ataqueEnemigo + ' - PENDIENTE'
+    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ', la mascota del enemigo atacó con ' + ataqueEnemigo + ' - ' + resultado
     // Se inserta el elemento (párrafo) al elemento especificado (section)
     sectionMensajes.appendChild(parrafo)
 }
