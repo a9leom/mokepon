@@ -20,6 +20,11 @@ function iniciarJuego() {
     botonFuego.addEventListener('click', ataqueFuego)
     botonAgua.addEventListener('click', ataqueAgua)
     botonTierra.addEventListener('click', ataqueTierra)
+
+    // Variable botón reiniciar
+    let botonReiniciar = document.getElementById('boton-reiniciar')
+    // Escuchando evento click botón reiniciar
+    botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
 function seleccionarMascotaJugador() {
@@ -132,6 +137,19 @@ function crearMensajeFinal(resultadoFinal) {
     parrafo.innerHTML = resultadoFinal
     // Se inserta el elemento (párrafo) al elemento especificado (section)
     sectionMensajes.appendChild(parrafo)
+
+    // Variables selección botones de ataque
+    let botonFuego = document.getElementById('boton-fuego')
+    let botonAgua = document.getElementById('boton-agua')
+    let botonTierra = document.getElementById('boton-tierra')
+    // Bloqueando botones mediante atributo disabled
+    botonFuego.disabled = true
+    botonAgua.disabled = true
+    botonTierra.disabled = true
+}
+// Función para reiniciar juego
+function reiniciarJuego() {
+    location.reload()
 }
 // Función de aletoriedad
 function aleatorio(min, max) {
