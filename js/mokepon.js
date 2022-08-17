@@ -6,6 +6,13 @@ let vidasEnemigo = 3
 
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
+    // Se selecciona sección de seleccionar ataque y reiniciar
+    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+    let sectionReiniciar = document.getElementById('reiniciar')
+    // Todos lo elementos de HTML tienen la propiedad style donde guardan todos sus estilos
+    sectionSeleccionarAtaque.style.display = 'none'
+    sectionReiniciar.style.display = 'none'
+
     // Seleccionando desde JS un elemento de HTML
     let botonMascotaJugador = document.getElementById("boton-mascota")
     // Escuchando evento click del elemento botón
@@ -28,6 +35,16 @@ function iniciarJuego() {
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
 function seleccionarMascotaJugador() {
+    // Se selecciona sección de seleccionar ataque
+    let sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
+    // Todos lo elementos de HTML tienen la propiedad style donde guardan todos sus estilos
+    sectionSeleccionarMascota.style.display = 'none'
+
+    // Se selecciona sección de seleccionar ataque
+    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+    // Se modifica el atributo display de los estilos por defecto
+    sectionSeleccionarAtaque.style.display = 'block'
+
     let inputHipodoge = document.getElementById('hipodoge')
     let inputCapipepo = document.getElementById('capipepo')
     let inputRatigueya = document.getElementById('ratigueya')
@@ -146,6 +163,10 @@ function crearMensajeFinal(resultadoFinal) {
     botonFuego.disabled = true
     botonAgua.disabled = true
     botonTierra.disabled = true
+
+    // Se habilita sección de botón reiniciar
+    let sectionReiniciar = document.getElementById('reiniciar')
+    sectionReiniciar.style.display = 'block'
 }
 // Función para reiniciar juego
 function reiniciarJuego() {
