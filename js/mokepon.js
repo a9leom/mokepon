@@ -58,6 +58,9 @@ function seleccionarMascotaJugador() {
         spanMascotaJugador.innerHTML = 'Ratigüeya'
     } else {
         alert('Debes seleccionar una mascota')
+        // Si el jugador no selecciona mascota se muestra la sección elegir mascota y se bloquea la de elegir ataque
+        sectionSeleccionarMascota.style.display = 'block'
+        sectionSeleccionarAtaque.style.display = 'none'
     }
 
     // Llamando función
