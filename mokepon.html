@@ -10,8 +10,8 @@
 </head>
 <body>
     <section id="seleccionar-mascota">
-        <h1 class="titulo">MOKEPON! 🔥🌊🌱</h1>
-        <h2>Elige a tu mascota:</h2>
+        <h1 class="titulo">Mokepón!🔥🌊🌱</h1>
+        <h2 class="subtitulo">Elige a tu mascota:</h2>
         <!-- Hipodoge -> Agua
         Capipepo -> Tierra
         Ratigüeya -> Fuego
@@ -19,14 +19,25 @@
         Tucapalma -> Agua y Tierra
         Pydos -> Tierra y Fuego -->
 
-        <label class="tarjeta-de-mokepon" for="hipodoge">Hipodoge</label>
-        <input type="radio" name="mascota" id="hipodoge">
-        
-        <label class="tarjeta-de-mokepon" for="capipepo">Capipepo</label>
-        <input type="radio" name="mascota" id="capipepo">
-        
-        <label class="tarjeta-de-mokepon" for="ratigueya">Ratigüeya</label>
-        <input type="radio" name="mascota" id="ratigueya">
+        <div class="tarjetas">
+            <label class="tarjeta-de-mokepon" for="hipodoge">
+                <p>Hipodoge</p>
+                <img src="./assets/mokepons_mokepon_hipodoge_attack.webp" alt="Mokepón Hipodoge">
+            </label>
+            <input type="radio" name="mascota" id="hipodoge">
+            
+            <label class="tarjeta-de-mokepon" for="capipepo">
+                <p>Capipepo</p>
+                <img src="./assets/mokepons_mokepon_capipepo_attack.webp" alt="Mokepón Capipepo">
+            </label>
+            <input type="radio" name="mascota" id="capipepo">
+            
+            <label class="tarjeta-de-mokepon" for="ratigueya">
+                <p>Ratigüeya</p>
+                <img src="./assets/mokepons_mokepon_ratigueya_attack.webp" alt="Mokepón Ratigüeya">
+            </label>
+            <input type="radio" name="mascota" id="ratigueya">
+        </div>
 
         <button id="boton-mascota">Seleccionar</button>
     </section>

@@ -1,11 +1,10 @@
-/* Selector */
-.titulo {
-    color: hotpink;
-    width: 320px;
-    height: 50px;
-    background-color: teal;
-}
+/* Imports */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
+body {
+    font-family: 'Fredoka One', cursive;
+    background-color: #041562;
+}
 /* display: flex */
 #seleccionar-mascota {
     display: flex;
@@ -13,16 +12,38 @@
     justify-content: center;
     align-items: center;
 }
+/* Selector */
+.titulo {
+    color: gold;
+    font-size: 32px;
+}
+.subtitulo {
+    color: white;
+    font-size: 20px;
+}
+.tarjetas {
+    display: flex;
+    gap: 10px;
+}
 
 /* Entendiendo el modelo de caja de los elementos */
 .tarjeta-de-mokepon {
-    width: 100px;
+    display: flex;
+    width: 180px;
     height: 100px;
-    background-color: aquamarine;
+    background-color: #11468F;
     padding: 10px;
     box-sizing: border-box;
-    margin: 10px;
-    border: 1px solid hotpink; /* tamaño tipo color */
+    border-radius: 20px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+.tarjeta-de-mokepon img {
+    width: 80px;
+}
+input {
+    display: none;
 }
 #boton-mascota {
     width: 100px;
