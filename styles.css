@@ -1,9 +1,9 @@
 /* Imports */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300&display=swap');
 
 body {
-    font-family: 'Fredoka One', cursive;
     background-color: #041562;
+    font-family: 'Poppins', sans-serif;
 }
 /* display: flex */
 #seleccionar-mascota {
@@ -16,6 +16,7 @@ body {
 .titulo {
     color: gold;
     font-size: 32px;
+    font-family: 'Fredoka One', cursive;
 }
 .subtitulo {
     color: white;
@@ -46,10 +47,12 @@ input {
     display: none;
 }
 #boton-mascota {
-    width: 100px;
+    width: 180px;
     height: 40px;
-    background-color: gold;
-    padding: 5px;
-    border: 2px solid blue;
-    margin: 10px;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 30px;
 }
