@@ -43,7 +43,7 @@ function seleccionarMascotaJugador() {
     // Se selecciona sección de seleccionar ataque
     let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
     // Se modifica el atributo display de los estilos por defecto
-    sectionSeleccionarAtaque.style.display = 'block'
+    sectionSeleccionarAtaque.style.display = 'flex'
 
     let inputHipodoge = document.getElementById('hipodoge')
     let inputCapipepo = document.getElementById('capipepo')

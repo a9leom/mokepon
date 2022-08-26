@@ -56,3 +56,19 @@ input {
     font-family: 'Poppins', sans-serif;
     margin-top: 30px;
 }
+
+/* Estilizando la segunda sección */
+#seleccionar-ataque {
+    flex-direction: column;
+    align-items: center;
+}
+.boton-ataque {
+    background-color: #11468F;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    border-color: transparent;
+    width: 100px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
