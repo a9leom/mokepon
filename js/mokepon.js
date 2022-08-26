@@ -139,24 +139,26 @@ function revisarVidas() {
 // Función para insertar nuevos mensajes en la sección mensaje
 function crearMensaje(resultado) {
     // Método de manipulación del DOM
-    let sectionMensajes = document.getElementById('mensajes')
+    let divMensajes = document.getElementById('resultado')
+    let ataquesJugador = document.getElementById('ataques-jugador')
+    let ataquesEnemigo = document.getElementById('ataques-enemigo')
     // Se crea un nuevo elemento, un párrafo en este caso
-    let parrafo = document.createElement('p')
+    let nuevoAtaqueJugador = document.createElement('p')
+    let nuevoAtaqueEnemigo = document.createElement('p')
     // Se define el mensaje del párrafo utilizando atributo innerHTML
-    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ', la mascota del enemigo atacó con ' + ataqueEnemigo + ' - ' + resultado
+    divMensajes.innerHTML = resultado
+    nuevoAtaqueJugador.innerHTML = ataqueJugador
+    nuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
     // Se inserta el elemento (párrafo) al elemento especificado (section)
-    sectionMensajes.appendChild(parrafo)
+    ataquesJugador.appendChild(nuevoAtaqueJugador)
+    ataquesEnemigo.appendChild(nuevoAtaqueEnemigo)
 }
 // Función para inserta mensaje de victoria o derrota
 function crearMensajeFinal(resultadoFinal) {
     // Método de manipulación del DOM
-    let sectionMensajes = document.getElementById('mensajes')
-    // Se crea un nuevo elemento, un párrafo en este caso
-    let parrafo = document.createElement('p')
+    let divMensajes = document.getElementById('resultado')
     // Se define el mensaje del párrafo utilizando atributo innerHTML
-    parrafo.innerHTML = resultadoFinal
-    // Se inserta el elemento (párrafo) al elemento especificado (section)
-    sectionMensajes.appendChild(parrafo)
+    divMensajes.innerHTML = resultadoFinal
 
     // Variables selección botones de ataque
     let botonFuego = document.getElementById('boton-fuego')
