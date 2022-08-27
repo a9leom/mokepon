@@ -91,3 +91,10 @@ input {
     padding: 10px;
     font-family: 'Poppins', sans-serif;
 }
+
+/* Estilizando última sección */
+.ataques {
+    display: grid;
+    grid-template-columns: 100px 100px;
+    text-align: center;
+}
