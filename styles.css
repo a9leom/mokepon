@@ -46,6 +46,9 @@ body {
 input {
     display: none;
 }
+input:checked + label {
+    background-color: #5D8BF4;
+}
 #boton-mascota {
     width: 180px;
     height: 40px;
