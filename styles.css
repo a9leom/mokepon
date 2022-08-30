@@ -22,7 +22,7 @@ body {
     color: white;
     font-size: 20px;
 }
-.tarjetas {
+.tarjetas, .opciones-ataque {
     display: flex;
     gap: 10px;
 }
@@ -97,4 +97,11 @@ input {
     display: grid;
     grid-template-columns: 100px 100px;
     text-align: center;
+}
+
+/* Media Queries */
+@media (max-width: 360px) {
+    .tarjetas, .opciones-ataque {
+        flex-direction: column;
+    }
 }
