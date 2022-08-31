@@ -1,4 +1,37 @@
-// Funciones globales
+// Seleccionando elementos del HTML
+// Función iniciarJuego
+const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+const sectionReiniciar = document.getElementById('reiniciar')
+const botonMascotaJugador = document.getElementById("boton-mascota")
+// Variables selección de ataque
+const botonFuego = document.getElementById('boton-fuego')
+const botonAgua = document.getElementById('boton-agua')
+const botonTierra = document.getElementById('boton-tierra')
+// Variable botón reiniciar
+const botonReiniciar = document.getElementById('boton-reiniciar')
+
+// Función seleccionarMascotaJugador
+// Se selecciona sección de seleccionar mascota
+const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
+// Se selecciona sección de seleccionar ataque
+const inputHipodoge = document.getElementById('hipodoge')
+const inputCapipepo = document.getElementById('capipepo')
+const inputRatigueya = document.getElementById('ratigueya')
+const spanMascotaJugador = document.getElementById('mascota-jugador')
+
+// Función seleccionarMascotaEnemigo
+const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
+
+// Función combate
+const spanVidasJugador = document.getElementById('vidas-jugador')
+const spanVidasEnemigo = document.getElementById('vidas-enemigo')
+
+// Función crearMensaje
+const divMensajes = document.getElementById('resultado')
+const ataquesJugador = document.getElementById('ataques-jugador')
+const ataquesEnemigo = document.getElementById('ataques-enemigo')
+
+// Otras variables globales
 let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
@@ -6,49 +39,24 @@ let vidasEnemigo = 3
 
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
-    // Se selecciona sección de seleccionar ataque y reiniciar
-    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
-    let sectionReiniciar = document.getElementById('reiniciar')
-    // Todos lo elementos de HTML tienen la propiedad style donde guardan todos sus estilos
+    // Modificando el display de un elemento a través de su propiedad style
     sectionSeleccionarAtaque.style.display = 'none'
     sectionReiniciar.style.display = 'none'
 
-    // Seleccionando desde JS un elemento de HTML
-    let botonMascotaJugador = document.getElementById("boton-mascota")
-    // Escuchando evento click del elemento botón
+    // Escuchando evento de los elementos de HTML
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
-
-    // Variables selección de ataque
-    let botonFuego = document.getElementById('boton-fuego')
-    let botonAgua = document.getElementById('boton-agua')
-    let botonTierra = document.getElementById('boton-tierra')
-
-    // Escuchando evento click del botones de selección ataque
     botonFuego.addEventListener('click', ataqueFuego)
     botonAgua.addEventListener('click', ataqueAgua)
     botonTierra.addEventListener('click', ataqueTierra)
-
-    // Variable botón reiniciar
-    let botonReiniciar = document.getElementById('boton-reiniciar')
-    // Escuchando evento click botón reiniciar
     botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
 function seleccionarMascotaJugador() {
-    // Se selecciona sección de seleccionar ataque
-    let sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
-    // Todos lo elementos de HTML tienen la propiedad style donde guardan todos sus estilos
+    // Modificando el display de un elemento a través de su propiedad style
     sectionSeleccionarMascota.style.display = 'none'
-
-    // Se selecciona sección de seleccionar ataque
-    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+    
     // Se modifica el atributo display de los estilos por defecto
     sectionSeleccionarAtaque.style.display = 'flex'
-
-    let inputHipodoge = document.getElementById('hipodoge')
-    let inputCapipepo = document.getElementById('capipepo')
-    let inputRatigueya = document.getElementById('ratigueya')
-    let spanMascotaJugador = document.getElementById('mascota-jugador')
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = 'Hipodoge'
@@ -69,7 +77,6 @@ function seleccionarMascotaJugador() {
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
     let mascotaAleatorio = aleatorio(1,3)
-    let spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 
     if (mascotaAleatorio == 1) {
         spanMascotaEnemigo.innerHTML = 'Hipodoge'
@@ -109,9 +116,6 @@ function ataqueAleatorioEnemigo() {
 }
 // Función combate
 function combate() {
-    let spanVidasJugador = document.getElementById('vidas-jugador')
-    let spanVidasEnemigo = document.getElementById('vidas-enemigo')
-
     if(ataqueEnemigo == ataqueJugador) {
         crearMensaje("EMPATE 😑")
     } else if((ataqueJugador == 'FUEGO' && ataqueEnemigo == 'TIERRA') || (ataqueJugador == 'AGUA' && ataqueEnemigo == 'FUEGO') || (ataqueJugador == 'TIERRA' && ataqueEnemigo == 'AGUA')) {
@@ -126,7 +130,6 @@ function combate() {
 
     // Llamado a función revisarVidas
     revisarVidas()
-
 }
 // Función para constatar vidas de las mascotas
 function revisarVidas() {
@@ -138,10 +141,6 @@ function revisarVidas() {
 }
 // Función para insertar nuevos mensajes en la sección mensaje
 function crearMensaje(resultado) {
-    // Método de manipulación del DOM
-    let divMensajes = document.getElementById('resultado')
-    let ataquesJugador = document.getElementById('ataques-jugador')
-    let ataquesEnemigo = document.getElementById('ataques-enemigo')
     // Se crea un nuevo elemento, un párrafo en este caso
     let nuevoAtaqueJugador = document.createElement('p')
     let nuevoAtaqueEnemigo = document.createElement('p')
@@ -155,22 +154,15 @@ function crearMensaje(resultado) {
 }
 // Función para inserta mensaje de victoria o derrota
 function crearMensajeFinal(resultadoFinal) {
-    // Método de manipulación del DOM
-    let divMensajes = document.getElementById('resultado')
     // Se define el mensaje del párrafo utilizando atributo innerHTML
     divMensajes.innerHTML = resultadoFinal
-
-    // Variables selección botones de ataque
-    let botonFuego = document.getElementById('boton-fuego')
-    let botonAgua = document.getElementById('boton-agua')
-    let botonTierra = document.getElementById('boton-tierra')
+    
     // Bloqueando botones mediante atributo disabled
     botonFuego.disabled = true
     botonAgua.disabled = true
     botonTierra.disabled = true
 
     // Se habilita sección de botón reiniciar
-    let sectionReiniciar = document.getElementById('reiniciar')
     sectionReiniciar.style.display = 'block'
 }
 // Función para reiniciar juego

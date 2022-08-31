@@ -103,7 +103,7 @@ input:checked + label {
 }
 
 /* Media Queries */
-@media (max-width: 360px) {
+@media (max-width: 440px) {
     .tarjetas, .opciones-ataque {
         flex-direction: column;
     }
