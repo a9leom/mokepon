@@ -3,17 +3,13 @@
 const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 const sectionReiniciar = document.getElementById('reiniciar')
 const botonMascotaJugador = document.getElementById("boton-mascota")
-// Variables selección de ataque
 const botonFuego = document.getElementById('boton-fuego')
 const botonAgua = document.getElementById('boton-agua')
 const botonTierra = document.getElementById('boton-tierra')
-// Variable botón reiniciar
 const botonReiniciar = document.getElementById('boton-reiniciar')
 
 // Función seleccionarMascotaJugador
-// Se selecciona sección de seleccionar mascota
 const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
-// Se selecciona sección de seleccionar ataque
 const inputHipodoge = document.getElementById('hipodoge')
 const inputCapipepo = document.getElementById('capipepo')
 const inputRatigueya = document.getElementById('ratigueya')
@@ -36,6 +32,20 @@ let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
+
+// Cración de clases
+class Mokepon {
+    constructor(nombre, foto, vida) {
+        this.nombre = nombre
+        this.foto = foto
+        this.vida = vida
+    }
+}
+
+// Creación objetos
+let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
+let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5)
+let ratigueya = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
 
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
