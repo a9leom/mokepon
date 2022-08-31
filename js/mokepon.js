@@ -28,6 +28,7 @@ const ataquesJugador = document.getElementById('ataques-jugador')
 const ataquesEnemigo = document.getElementById('ataques-enemigo')
 
 // Otras variables globales
+let mokepones = [] // Variable tipo array
 let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
@@ -46,6 +47,9 @@ class Mokepon {
 let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
 let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5)
 let ratigueya = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
+
+// Guardando los 3 objetos en una sola variable
+mokepones.push(hipodoge, capipepo, ratigueya)
 
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
