@@ -26,9 +26,11 @@ const spanVidasEnemigo = document.getElementById('vidas-enemigo')
 const divMensajes = document.getElementById('resultado')
 const ataquesJugador = document.getElementById('ataques-jugador')
 const ataquesEnemigo = document.getElementById('ataques-enemigo')
+const contenedorTarjetas = document.getElementById('contenedor-tarjetas')
 
 // Otras variables globales
 let mokepones = [] // Variable tipo array
+let opcionDeMokepones
 let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
@@ -72,11 +74,26 @@ ratigueya.ataques.push(
     { nombre: '🌱', id: 'boton-tierra'}
 )
 
+// Populamos un array con cada uno de los Mokepones creados
+mokepones.push(hipodoge, capipepo, ratigueya)
+
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
     // Modificando el display de un elemento a través de su propiedad style
     sectionSeleccionarAtaque.style.display = 'none'
     sectionReiniciar.style.display = 'none'
+
+    // Cargando el array que contiene los mokepones al momento de inciar el juego
+    mokepones.forEach((mokepon) => {
+        opcionDeMokepones = `
+        <input type="radio" name="mascota" id=${mokepon.nombre}>
+        <label class="tarjeta-de-mokepon" for=${mokepon.nombre}>
+            <p>${mokepon.nombre}</p>
+            <img src=${mokepon.foto} alt="Mokepón ${mokepon.nombre}">
+        </label>
+        `
+        contenedorTarjetas.innerHTML += opcionDeMokepones
+    })
 
     // Escuchando evento de los elementos de HTML
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
