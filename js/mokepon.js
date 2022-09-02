@@ -133,15 +133,10 @@ function seleccionarMascotaJugador() {
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
-    let mascotaAleatorio = aleatorio(1,3)
-
-    if (mascotaAleatorio == 1) {
-        spanMascotaEnemigo.innerHTML = 'Hipodoge'
-    } else if (mascotaAleatorio == 2) {
-        spanMascotaEnemigo.innerHTML = 'Capipepo'
-    } else {
-        spanMascotaEnemigo.innerHTML = ' Ratigüeya'
-    }
+    // Se cambian los parámetros de la función para que se ajusten a los índices del array
+    let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
+    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
+    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
 }
 // Funciones de ataque
 function ataqueFuego() {
