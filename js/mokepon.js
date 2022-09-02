@@ -10,9 +10,6 @@ const botonReiniciar = document.getElementById('boton-reiniciar')
 
 // Función seleccionarMascotaJugador
 const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
-const inputHipodoge = document.getElementById('hipodoge')
-const inputCapipepo = document.getElementById('capipepo')
-const inputRatigueya = document.getElementById('ratigueya')
 const spanMascotaJugador = document.getElementById('mascota-jugador')
 
 // Función seleccionarMascotaEnemigo
@@ -35,6 +32,10 @@ let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
+// Variables que eran const se pasan a let para después guardarles el elemento correspondiente
+let inputHipodoge
+let inputCapipepo
+let inputRatigueya
 
 // Cración de clases
 class Mokepon {
@@ -93,6 +94,10 @@ function iniciarJuego() {
         </label>
         `
         contenedorTarjetas.innerHTML += opcionDeMokepones
+        // Una vez creada la estructura HTML se seleccionan por su id
+        inputHipodoge = document.getElementById('Hipodoge')
+        inputCapipepo = document.getElementById('Capipepo')
+        inputRatigueya = document.getElementById('Ratigueya')
     })
 
     // Escuchando evento de los elementos de HTML
