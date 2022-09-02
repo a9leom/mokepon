@@ -32,7 +32,7 @@ let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
-// Variables que eran const se pasan a let para después guardarles el elemento correspondiente
+// Variables que eran const se pasan a let para después guardarles los elementos correspondientes
 let inputHipodoge
 let inputCapipepo
 let inputRatigueya
@@ -94,10 +94,10 @@ function iniciarJuego() {
         </label>
         `
         contenedorTarjetas.innerHTML += opcionDeMokepones
-        // Una vez creada la estructura HTML se seleccionan por su id
+        // Una vez creada la estructura HTML se seleccionan los elementos por su id
         inputHipodoge = document.getElementById('Hipodoge')
         inputCapipepo = document.getElementById('Capipepo')
-        inputRatigueya = document.getElementById('Ratigueya')
+        inputRatigueya = document.getElementById('Ratigüeya')
     })
 
     // Escuchando evento de los elementos de HTML
@@ -116,11 +116,11 @@ function seleccionarMascotaJugador() {
     sectionSeleccionarAtaque.style.display = 'flex'
 
     if (inputHipodoge.checked) {
-        spanMascotaJugador.innerHTML = 'Hipodoge'
+        spanMascotaJugador.innerHTML = inputHipodoge.id
     } else if (inputCapipepo.checked) {
-        spanMascotaJugador.innerHTML = 'Capipepo'
+        spanMascotaJugador.innerHTML = inputCapipepo.id
     } else if (inputRatigueya.checked) {
-        spanMascotaJugador.innerHTML = 'Ratigüeya'
+        spanMascotaJugador.innerHTML = inputRatigueya.id
     } else {
         alert('Debes seleccionar una mascota')
         // Si el jugador no selecciona mascota se muestra la sección elegir mascota y se bloquea la de elegir ataque
