@@ -28,6 +28,7 @@ const contenedorTarjetas = document.getElementById('contenedor-tarjetas')
 // Otras variables globales
 let mokepones = [] // Variable tipo array
 let opcionDeMokepones
+let mascotaJugador
 let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
@@ -117,10 +118,13 @@ function seleccionarMascotaJugador() {
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
+        mascotaJugador = inputHipodoge.id
     } else if (inputCapipepo.checked) {
         spanMascotaJugador.innerHTML = inputCapipepo.id
+        mascotaJugador = inputCapipepo.id
     } else if (inputRatigueya.checked) {
         spanMascotaJugador.innerHTML = inputRatigueya.id
+        mascotaJugador = inputRatigueya.id
     } else {
         alert('Debes seleccionar una mascota')
         // Si el jugador no selecciona mascota se muestra la sección elegir mascota y se bloquea la de elegir ataque
@@ -128,8 +132,23 @@ function seleccionarMascotaJugador() {
         sectionSeleccionarAtaque.style.display = 'none'
     }
 
+    // Llamado a función
+    extraerAtaques(mascotaJugador)
     // Llamando función
     seleccionarMascotaEnemigo()
+}
+// Función que busca los ataques del mokepón seleccionado
+function extraerAtaques(mascotaJugador) {
+    // Variable interna para guardar los ataques del mokepón
+    let ataques
+    for (let i = 0; i < mokepones.length; i++) {
+        // Validación
+        if (mascotaJugador == mokepones[i].nombre) {
+            ataques = mokepones[i].ataques
+        }
+    }
+    // Llamado a función
+    mostrarAtaques(ataques)
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
