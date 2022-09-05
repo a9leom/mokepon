@@ -3,9 +3,6 @@
 const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 const sectionReiniciar = document.getElementById('reiniciar')
 const botonMascotaJugador = document.getElementById("boton-mascota")
-const botonFuego = document.getElementById('boton-fuego')
-const botonAgua = document.getElementById('boton-agua')
-const botonTierra = document.getElementById('boton-tierra')
 const botonReiniciar = document.getElementById('boton-reiniciar')
 
 // Función seleccionarMascotaJugador
@@ -24,10 +21,12 @@ const divMensajes = document.getElementById('resultado')
 const ataquesJugador = document.getElementById('ataques-jugador')
 const ataquesEnemigo = document.getElementById('ataques-enemigo')
 const contenedorTarjetas = document.getElementById('contenedor-tarjetas')
+const contenedorAtaques = document.getElementById('contenedor-ataques')
 
 // Otras variables globales
 let mokepones = [] // Variable tipo array
 let opcionDeMokepones
+let ataquesMokepon
 let mascotaJugador
 let ataqueJugador
 let ataqueEnemigo
@@ -37,6 +36,9 @@ let vidasEnemigo = 3
 let inputHipodoge
 let inputCapipepo
 let inputRatigueya
+let botonFuego
+let botonAgua
+let botonTierra
 
 // Cración de clases
 class Mokepon {
@@ -103,9 +105,6 @@ function iniciarJuego() {
 
     // Escuchando evento de los elementos de HTML
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
-    botonFuego.addEventListener('click', ataqueFuego)
-    botonAgua.addEventListener('click', ataqueAgua)
-    botonTierra.addEventListener('click', ataqueTierra)
     botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
@@ -149,6 +148,27 @@ function extraerAtaques(mascotaJugador) {
     }
     // Llamado a función
     mostrarAtaques(ataques)
+}
+// Fución que muestra inyecta los ataques en el HTML
+function mostrarAtaques(ataques) {
+    ataques.forEach((ataque) => {
+        ataquesMokepon = `
+        <button id=${ataque.id} class="boton-ataque">${ataque.nombre}</button>
+        `
+
+        // Se inyecta la estructura en el contenedor de HTML
+        contenedorAtaques.innerHTML += ataquesMokepon
+    })
+
+    // El error que se genera es porque al incio del HTML se busca obtener un elemento de HTML que aún no se ha creado, por esa obtención se traslada aquí
+    botonFuego = document.getElementById('boton-fuego')
+    botonAgua = document.getElementById('boton-agua')
+    botonTierra = document.getElementById('boton-tierra')
+
+    // Se trasladan los escuchadores de eventos de los botones porque es hasta este momento que existen
+    botonFuego.addEventListener('click', ataqueFuego)
+    botonAgua.addEventListener('click', ataqueAgua)
+    botonTierra.addEventListener('click', ataqueTierra)
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
