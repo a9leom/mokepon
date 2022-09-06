@@ -27,8 +27,9 @@ const contenedorAtaques = document.getElementById('contenedor-ataques')
 let mokepones = [] // Variable tipo array
 let opcionDeMokepones
 let ataquesMokepon
+let botones = []
+let ataqueJugador = []
 let mascotaJugador
-let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
@@ -149,11 +150,11 @@ function extraerAtaques(mascotaJugador) {
     // Llamado a función
     mostrarAtaques(ataques)
 }
-// Fución que muestra inyecta los ataques en el HTML
+// Fución que inyecta los ataques en el HTML
 function mostrarAtaques(ataques) {
     ataques.forEach((ataque) => {
         ataquesMokepon = `
-        <button id=${ataque.id} class="boton-ataque">${ataque.nombre}</button>
+        <button id=${ataque.id} class="boton-ataque b-ataque">${ataque.nombre}</button>
         `
 
         // Se inyecta la estructura en el contenedor de HTML
@@ -165,10 +166,27 @@ function mostrarAtaques(ataques) {
     botonAgua = document.getElementById('boton-agua')
     botonTierra = document.getElementById('boton-tierra')
 
-    // Se trasladan los escuchadores de eventos de los botones porque es hasta este momento que existen
-    botonFuego.addEventListener('click', ataqueFuego)
-    botonAgua.addEventListener('click', ataqueAgua)
-    botonTierra.addEventListener('click', ataqueTierra)
+    // Populo una variable array a través del método querySelectAll, que selecciona todos los elementos que cuenten con un valor específico (en este caso una clase)
+    botones = document.querySelectorAll('.b-ataque')
+}
+function secuenciaAtaque() {
+    botones.forEach((boton) => {
+        boton.addEventListener('click', (e) => {
+            if (e.target.textContent === '🔥') {
+                ataqueJugador.push('FUEGO')
+                console.log(ataqueJugador)
+                boton.style.background = '#112F58'
+            } else if (e.target.textContent === '🌊') {
+                ataqueJugador.push('AGUA')
+                console.log(ataqueJugador)
+                boton.style.background = '#112F58'
+            } else {
+                ataqueJugador.push('TIERRA')
+                console.log(ataqueJugador)
+                boton.style.background = '#112F58'
+            }
+        })
+    })
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo() {
@@ -176,19 +194,8 @@ function seleccionarMascotaEnemigo() {
     let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
     // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
     spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
-}
-// Funciones de ataque
-function ataqueFuego() {
-    ataqueJugador = 'FUEGO'
-    ataqueAleatorioEnemigo()
-}
-function ataqueAgua() {
-    ataqueJugador = 'AGUA'
-    ataqueAleatorioEnemigo()
-}
-function ataqueTierra() {
-    ataqueJugador = 'TIERRA'
-    ataqueAleatorioEnemigo()
+    // Llamado a la función
+    secuenciaAtaque()
 }
 // Función para asignar ataque enemigo
 function ataqueAleatorioEnemigo() {
