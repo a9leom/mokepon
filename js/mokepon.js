@@ -34,6 +34,8 @@ let mascotaJugador
 let ataqueEnemigo = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
+let victoriasJugador = 0
+let victoriasEnemigo = 0
 let vidasJugador = 3
 let vidasEnemigo = 3
 // Variables que eran const se pasan a let para después guardarles los elementos correspondientes
@@ -239,23 +241,29 @@ function combate() {
         if (ataqueJugador[index] === ataqueEnemigo[index]) {
             indexAmbosOponentes(index, index)
             crearMensaje("EMPATE 😑")
-        } else if ((ataqueJugador[index] == 'FUEGO' && ataqueEnemigo[index] == 'TIERRA') || (ataqueJugador[index] == 'AGUA' && ataqueEnemigo[index] == 'FUEGO') || (ataqueJugador[index] == 'TIERRA' && ataqueEnemigo[index] == 'AGUA')) {
+        } else if ((ataqueJugador[index] === 'FUEGO' && ataqueEnemigo[index] === 'TIERRA') || (ataqueJugador[index] === 'AGUA' && ataqueEnemigo[index] === 'FUEGO') || (ataqueJugador[index] === 'TIERRA' && ataqueEnemigo[index] === 'AGUA')) {
             indexAmbosOponentes(index, index)
             crearMensaje("GANASTE 🎉")
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
         } else {
             indexAmbosOponentes(index, index)
             crearMensaje("PERDISTE 😢")
+            victoriasEnemigo++
+            spanVidasEnemigo.innerHTML = victoriasEnemigo
         }
     }
 
-    // Llamado a función revisarVidas
-    revisarVidas()
+    // Llamado a función
+    revisarVictorias()
 }
-// Función para constatar vidas de las mascotas
-function revisarVidas() {
-    if (vidasEnemigo == 0) {
+// Función para constatar victorias del jugador y el enemigo
+function revisarVictorias() {
+    if (victoriasJugador === victoriasEnemigo) {
+        crearMensajeFinal('Esto fue un empate! 🤝')
+    } else if (victoriasJugador > victoriasEnemigo) {
         crearMensajeFinal('FELICITACIONES! Ganaste 👏')
-    } else if (vidasJugador == 0) {
+    } else {
         crearMensajeFinal('Lo siento, perdiste 💔')
     }
 }
