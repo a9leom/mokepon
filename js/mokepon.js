@@ -32,6 +32,8 @@ let botones = []
 let ataqueJugador = []
 let mascotaJugador
 let ataqueEnemigo = []
+let indexAtaqueJugador
+let indexAtaqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
 // Variables que eran const se pasan a let para después guardarles los elementos correspondientes
@@ -215,21 +217,35 @@ function ataqueAleatorioEnemigo() {
         ataqueEnemigo.push('TIERRA')
     }
     console.log(ataqueEnemigo)
-    // Momento de para llamar a la función de combate
-    combate()
+
+    // Llamdo a función
+    iniciarPelea()
+}
+// Función que valida si están completos los arreglos de los ataques
+function iniciarPelea() {
+    if (ataqueJugador.length === 5) {
+        // Llamado función
+        combate()
+    }
+}
+function indexAmbosOponentes(jugador, enemigo) {
+    indexAtaqueJugador = ataqueJugador[jugador]
+    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
 }
 // Función combate
 function combate() {
-    if(ataqueEnemigo == ataqueJugador) {
-        crearMensaje("EMPATE 😑")
-    } else if((ataqueJugador == 'FUEGO' && ataqueEnemigo == 'TIERRA') || (ataqueJugador == 'AGUA' && ataqueEnemigo == 'FUEGO') || (ataqueJugador == 'TIERRA' && ataqueEnemigo == 'AGUA')) {
-        crearMensaje("GANASTE 🎉")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else {
-        crearMensaje("PERDISTE 😭")
-        vidasJugador--
-        spanVidasJugador.innerHTML = vidasJugador
+    // Para recorrer ambos arreglos
+    for (let index = 0; index < ataqueJugador.length; index++) {
+        if (ataqueJugador[index] === ataqueEnemigo[index]) {
+            indexAmbosOponentes(index, index)
+            crearMensaje("EMPATE 😑")
+        } else if ((ataqueJugador[index] == 'FUEGO' && ataqueEnemigo[index] == 'TIERRA') || (ataqueJugador[index] == 'AGUA' && ataqueEnemigo[index] == 'FUEGO') || (ataqueJugador[index] == 'TIERRA' && ataqueEnemigo[index] == 'AGUA')) {
+            indexAmbosOponentes(index, index)
+            crearMensaje("GANASTE 🎉")
+        } else {
+            indexAmbosOponentes(index, index)
+            crearMensaje("PERDISTE 😢")
+        }
     }
 
     // Llamado a función revisarVidas
@@ -250,8 +266,8 @@ function crearMensaje(resultado) {
     let nuevoAtaqueEnemigo = document.createElement('p')
     // Se define el mensaje del párrafo utilizando atributo innerHTML
     divMensajes.innerHTML = resultado
-    nuevoAtaqueJugador.innerHTML = ataqueJugador
-    nuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
+    nuevoAtaqueJugador.innerHTML = indexAtaqueJugador
+    nuevoAtaqueEnemigo.innerHTML = indexAtaqueEnemigo
     // Se inserta el elemento (párrafo) al elemento especificado (section)
     ataquesJugador.appendChild(nuevoAtaqueJugador)
     ataquesEnemigo.appendChild(nuevoAtaqueEnemigo)
