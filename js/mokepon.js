@@ -27,10 +27,11 @@ const contenedorAtaques = document.getElementById('contenedor-ataques')
 let mokepones = [] // Variable tipo array
 let opcionDeMokepones
 let ataquesMokepon
+let ataquesMokeponEnemigo
 let botones = []
 let ataqueJugador = []
 let mascotaJugador
-let ataqueEnemigo
+let ataqueEnemigo = []
 let vidasJugador = 3
 let vidasEnemigo = 3
 // Variables que eran const se pasan a let para después guardarles los elementos correspondientes
@@ -185,6 +186,8 @@ function secuenciaAtaque() {
                 console.log(ataqueJugador)
                 boton.style.background = '#112F58'
             }
+            // Llamado a la función
+            ataqueAleatorioEnemigo()
         })
     })
 }
@@ -194,21 +197,24 @@ function seleccionarMascotaEnemigo() {
     let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
     // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
     spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
+    // Se guardan los ataques que que tiene el mokepón asignado al enemigo
+    ataquesMokeponEnemigo = mokepones[mascotaAleatorio].ataques
     // Llamado a la función
     secuenciaAtaque()
 }
 // Función para asignar ataque enemigo
 function ataqueAleatorioEnemigo() {
-    let ataqueAleatorio = aleatorio(1,3)
+    // Se hace la función dinámica al hacerla dependiente de la cantidad de ataques que tenga el mokepón
+    let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length - 1)
 
-    if (ataqueAleatorio == 1) {
-        ataqueEnemigo = 'FUEGO'
-    } else if (ataqueAleatorio == 2) {
-        ataqueEnemigo = 'AGUA'
+    if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
+        ataqueEnemigo.push('FUEGO')
+    } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
+        ataqueEnemigo.push('AGUA')
     } else {
-        ataqueEnemigo = 'TIERRA'
+        ataqueEnemigo.push('TIERRA')
     }
-
+    console.log(ataqueEnemigo)
     // Momento de para llamar a la función de combate
     combate()
 }
