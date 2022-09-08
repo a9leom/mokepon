@@ -71,14 +71,14 @@ input:checked + label {
     box-sizing: border-box;
     border-radius: 20px;
     border-color: transparent;
-    width: 200px;
+    width: 80px;
     color: white;
     font-family: 'Poppins', sans-serif;
 }
 
 #mensajes {
     width: 280px;
-    background: gold;
+    background: white;
     padding: 20px;
     margin-top: 20px;
     border-radius: 20px;

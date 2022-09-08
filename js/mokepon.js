@@ -181,14 +181,17 @@ function secuenciaAtaque() {
                 ataqueJugador.push('FUEGO')
                 console.log(ataqueJugador)
                 boton.style.background = '#112F58'
+                boton.disabled = true
             } else if (e.target.textContent === '🌊') {
                 ataqueJugador.push('AGUA')
                 console.log(ataqueJugador)
                 boton.style.background = '#112F58'
+                boton.disabled = true
             } else {
                 ataqueJugador.push('TIERRA')
                 console.log(ataqueJugador)
                 boton.style.background = '#112F58'
+                boton.disabled = true
             }
             // Llamado a la función
             ataqueAleatorioEnemigo()
@@ -284,11 +287,6 @@ function crearMensaje(resultado) {
 function crearMensajeFinal(resultadoFinal) {
     // Se define el mensaje del párrafo utilizando atributo innerHTML
     divMensajes.innerHTML = resultadoFinal
-    
-    // Bloqueando botones mediante atributo disabled
-    botonFuego.disabled = true
-    botonAgua.disabled = true
-    botonTierra.disabled = true
 
     // Se habilita sección de botón reiniciar
     sectionReiniciar.style.display = 'block'
