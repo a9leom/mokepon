@@ -211,17 +211,20 @@ function seleccionarMascotaEnemigo() {
 }
 // Función para asignar ataque enemigo
 function ataqueAleatorioEnemigo() {
-    // Se hace la función dinámica al hacerla dependiente de la cantidad de ataques que tenga el mokepón
-    let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length - 1)
+    // Se obtiene un número aleatorio, que servirá como índice, acorde al rango de ataques
+    let i = aleatorio(0, ataquesMokeponEnemigo.length - 1)
 
-    if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
+    // Condición para inyectar en el nuevo array el ataque aleatorio
+    if (ataquesMokeponEnemigo[i].nombre === '🔥') {
         ataqueEnemigo.push('FUEGO')
-    } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
+    } else if (ataquesMokeponEnemigo[i].nombre === '🌊') {
         ataqueEnemigo.push('AGUA')
     } else {
         ataqueEnemigo.push('TIERRA')
     }
     console.log(ataqueEnemigo)
+    // Se elimina uno de los ataques ubicado en el índice (i)
+    ataquesMokeponEnemigo.splice(i, 1)
 
     // Llamdo a función
     iniciarPelea()
