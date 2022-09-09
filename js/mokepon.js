@@ -42,6 +42,9 @@ let vidasEnemigo = 3
 let inputHipodoge
 let inputCapipepo
 let inputRatigueya
+let inputLangostelvis
+let inputTucapalma
+let inputPydos
 let botonFuego
 let botonAgua
 let botonTierra
@@ -60,8 +63,11 @@ class Mokepon {
 let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
 let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5)
 let ratigueya = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
+let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5)
+let tucapalma =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5)
+let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5)
 
-// Agregando ataques a cada mokepón
+// Agregando ataques a cada mokepón mediante objetos literales
 hipodoge.ataques.push(
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌊', id: 'boton-agua'},
@@ -83,9 +89,30 @@ ratigueya.ataques.push(
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌱', id: 'boton-tierra'}
 )
+langostelvis.ataques.push(
+    { nombre: '🔥', id: 'boton-fuego'},
+    { nombre: '🔥', id: 'boton-fuego'},
+    { nombre: '🌊', id: 'boton-agua'},
+    { nombre: '🌊', id: 'boton-agua'},
+    { nombre: '🌱', id: 'boton-tierra'}
+)
+tucapalma.ataques.push(
+    { nombre: '🌊', id: 'boton-agua'},
+    { nombre: '🌊', id: 'boton-agua'},
+    { nombre: '🌱', id: 'boton-tierra'},
+    { nombre: '🌱', id: 'boton-tierra'},
+    { nombre: '🔥', id: 'boton-fuego'}
+)
+pydos.ataques.push(
+    { nombre: '🌱', id: 'boton-tierra'},
+    { nombre: '🌱', id: 'boton-tierra'},
+    { nombre: '🔥', id: 'boton-fuego'},
+    { nombre: '🔥', id: 'boton-fuego'},
+    { nombre: '🌊', id: 'boton-agua'}
+)
 
 // Populamos un array con cada uno de los Mokepones creados
-mokepones.push(hipodoge, capipepo, ratigueya)
+mokepones.push(hipodoge, capipepo, ratigueya, langostelvis, tucapalma, pydos)
 
 // Función a ejecutar tras haberse cargado el HTML 2
 function iniciarJuego() {
@@ -107,6 +134,9 @@ function iniciarJuego() {
         inputHipodoge = document.getElementById('Hipodoge')
         inputCapipepo = document.getElementById('Capipepo')
         inputRatigueya = document.getElementById('Ratigüeya')
+        inputLangostelvis = document.getElementById('Langostelvis')
+        inputTucapalma = document.getElementById('Tucapalma')
+        inputPydos = document.getElementById('Pydos')
     })
 
     // Escuchando evento de los elementos de HTML
@@ -130,10 +160,19 @@ function seleccionarMascotaJugador() {
     } else if (inputRatigueya.checked) {
         spanMascotaJugador.innerHTML = inputRatigueya.id
         mascotaJugador = inputRatigueya.id
+    } else if (inputLangostelvis.checked) {
+        spanMascotaJugador.innerHTML = inputLangostelvis.id
+        mascotaJugador = inputLangostelvis.id
+    } else if (inputTucapalma.checked) {
+        spanMascotaJugador.innerHTML = inputTucapalma.id
+        mascotaJugador = inputTucapalma.id
+    } else if (inputPydos.checked) {
+        spanMascotaJugador.innerHTML = inputPydos.id
+        mascotaJugador = inputPydos.id
     } else {
         alert('Debes seleccionar una mascota')
         // Si el jugador no selecciona mascota se muestra la sección elegir mascota y se bloquea la de elegir ataque
-        sectionSeleccionarMascota.style.display = 'block'
+        sectionSeleccionarMascota.style.display = 'flex'
         sectionSeleccionarAtaque.style.display = 'none'
     }
 
