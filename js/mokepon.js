@@ -45,9 +45,6 @@ let inputRatigueya
 let inputLangostelvis
 let inputTucapalma
 let inputPydos
-let botonFuego
-let botonAgua
-let botonTierra
 
 // Cración de clases
 class Mokepon {
@@ -205,13 +202,19 @@ function mostrarAtaques(ataques) {
         contenedorAtaques.innerHTML += ataquesMokepon
     })
 
-    // El error que se genera es porque al incio del HTML se busca obtener un elemento de HTML que aún no se ha creado, por esa obtención se traslada aquí
-    botonFuego = document.getElementById('boton-fuego')
-    botonAgua = document.getElementById('boton-agua')
-    botonTierra = document.getElementById('boton-tierra')
-
     // Populo una variable array a través del método querySelectAll, que selecciona todos los elementos que cuenten con un valor específico (en este caso una clase)
     botones = document.querySelectorAll('.b-ataque')
+}
+// Función que se ejecuta justo después que el jugador seleccione mascota
+function seleccionarMascotaEnemigo() {
+    // Se cambian los parámetros de la función para que se ajusten a los índices del array
+    let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
+    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
+    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
+    // Se guardan los ataques que que tiene el mokepón asignado al enemigo
+    ataquesMokeponEnemigo = mokepones[mascotaAleatorio].ataques
+    // Llamado a la función
+    secuenciaAtaque()
 }
 function secuenciaAtaque() {
     botones.forEach((boton) => {
@@ -236,17 +239,6 @@ function secuenciaAtaque() {
             ataqueAleatorioEnemigo()
         })
     })
-}
-// Función que se ejecuta justo después que el jugador seleccione mascota
-function seleccionarMascotaEnemigo() {
-    // Se cambian los parámetros de la función para que se ajusten a los índices del array
-    let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
-    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
-    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
-    // Se guardan los ataques que que tiene el mokepón asignado al enemigo
-    ataquesMokeponEnemigo = mokepones[mascotaAleatorio].ataques
-    // Llamado a la función
-    secuenciaAtaque()
 }
 // Función para asignar ataque enemigo
 function ataqueAleatorioEnemigo() {
@@ -275,10 +267,6 @@ function iniciarPelea() {
         combate()
     }
 }
-function indexAmbosOponentes(jugador, enemigo) {
-    indexAtaqueJugador = ataqueJugador[jugador]
-    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
-}
 // Función combate
 function combate() {
     // Para recorrer ambos arreglos
@@ -298,9 +286,13 @@ function combate() {
             spanVidasEnemigo.innerHTML = victoriasEnemigo
         }
     }
-
+    
     // Llamado a función
     revisarVictorias()
+}
+function indexAmbosOponentes(jugador, enemigo) {
+    indexAtaqueJugador = ataqueJugador[jugador]
+    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
 }
 // Función para constatar victorias del jugador y el enemigo
 function revisarVictorias() {
