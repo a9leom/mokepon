@@ -127,14 +127,14 @@ function iniciarJuego() {
         </label>
         `
         contenedorTarjetas.innerHTML += opcionDeMokepones
-        // Una vez creada la estructura HTML se seleccionan los elementos por su id
-        inputHipodoge = document.getElementById('Hipodoge')
-        inputCapipepo = document.getElementById('Capipepo')
-        inputRatigueya = document.getElementById('Ratigüeya')
-        inputLangostelvis = document.getElementById('Langostelvis')
-        inputTucapalma = document.getElementById('Tucapalma')
-        inputPydos = document.getElementById('Pydos')
     })
+    // Una vez creada la estructura HTML se seleccionan los elementos por su id
+    inputHipodoge = document.getElementById('Hipodoge')
+    inputCapipepo = document.getElementById('Capipepo')
+    inputRatigueya = document.getElementById('Ratigüeya')
+    inputLangostelvis = document.getElementById('Langostelvis')
+    inputTucapalma = document.getElementById('Tucapalma')
+    inputPydos = document.getElementById('Pydos')
 
     // Escuchando evento de los elementos de HTML
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
