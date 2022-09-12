@@ -15,7 +15,7 @@ body {
 /* Selector */
 .titulo {
     color: gold;
-    font-size: 32px;
+    font-size: 36px;
     font-family: 'Fredoka One', cursive;
 }
 .subtitulo {
@@ -25,6 +25,8 @@ body {
 .tarjetas, .opciones-ataque {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* Entendiendo el modelo de caja de los elementos */
@@ -77,6 +79,7 @@ input:checked + label {
 }
 
 #mensajes {
+    font-weight: bold;
     width: 280px;
     background: white;
     padding: 20px;
@@ -104,7 +107,7 @@ input:checked + label {
 
 /* Media Queries */
 @media (max-width: 440px) {
-    .tarjetas, .opciones-ataque {
-        flex-direction: column;
+    .tarjetas {
+        flex-wrap: wrap;
     }
 }
