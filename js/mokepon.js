@@ -34,6 +34,9 @@ let mascotaJugador
 let ataqueEnemigo = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
+let mokeponJugador
+let mokeponEnemigo
+let ataques // Variable para guardar los ataques del mokepón jugador
 let victoriasJugador = 0
 let victoriasEnemigo = 0
 let vidasJugador = 3
@@ -174,23 +177,52 @@ function seleccionarMascotaJugador() {
         sectionSeleccionarAtaque.style.display = 'none'
     }
 
-    // Llamado a función
-    extraerAtaques(mascotaJugador)
     // Llamando función
     seleccionarMascotaEnemigo()
+    // Llamado a función
+    extraerAtaques(mascotaJugador)
+}
+// Función que se ejecuta justo después que el jugador seleccione mascota
+function seleccionarMascotaEnemigo() {
+    // Se cambian los parámetros de la función para que se ajusten a los índices del array
+    let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
+    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
+    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
+    // Se guardan los ataques que que tiene el mokepón asignado al enemigo
+    ataquesMokeponEnemigo = mokepones[mascotaAleatorio].ataques
+    // Se guarda el mokepón del enemigo
+    mokeponEnemigo = mokepones[mascotaAleatorio]
 }
 // Función que busca los ataques del mokepón seleccionado
 function extraerAtaques(mascotaJugador) {
-    // Variable interna para guardar los ataques del mokepón
-    let ataques
     for (let i = 0; i < mokepones.length; i++) {
         // Validación
         if (mascotaJugador == mokepones[i].nombre) {
             ataques = mokepones[i].ataques
+            // Se guarda el mokepón del jugador
+            mokeponJugador = mokepones[i]
         }
     }
+    // Lamado a función
+    validacionTipo(mokeponJugador, mokeponEnemigo)
     // Llamado a función
     mostrarAtaques(ataques)
+}
+// Función que valida su un tipo se impone sobre otro
+function validacionTipo(mokeponJugador, mokeponEnemigo) {
+    if (mokeponJugador.tipo === mokeponEnemigo.tipo) {
+        console.log('Es un empate en el tipo')
+    } else if ((mokeponJugador.tipo === 'FUEGO' && mokeponEnemigo.tipo === 'TIERRA') || (mokeponJugador.tipo === 'AGUA' && mokeponEnemigo.tipo === 'FUEGO') || (mokeponJugador.tipo === 'TIERRA' && mokeponEnemigo.tipo === 'AGUA')) {
+        ataques.unshift(
+            {nombre: mokeponJugador.ataques[0].nombre, id: mokeponJugador.ataques[0].id}
+        )
+        console.log(ataques)
+    } else {
+        ataquesMokeponEnemigo.unshift(
+            {nombre: mokeponEnemigo.ataques[0].nombre, id: mokeponEnemigo.ataques[0].id}
+        )
+        console.log(ataquesMokeponEnemigo)
+    }
 }
 // Fución que inyecta los ataques en el HTML
 function mostrarAtaques(ataques) {
@@ -205,17 +237,8 @@ function mostrarAtaques(ataques) {
 
     // Populo una variable array a través del método querySelectAll, que selecciona todos los elementos que cuenten con un valor específico (en este caso una clase)
     botones = document.querySelectorAll('.b-ataque')
-}
-// Función que se ejecuta justo después que el jugador seleccione mascota
-function seleccionarMascotaEnemigo() {
-    // Se cambian los parámetros de la función para que se ajusten a los índices del array
-    let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
-    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
-    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
-    // Se guardan los ataques que que tiene el mokepón asignado al enemigo
-    ataquesMokeponEnemigo = mokepones[mascotaAleatorio].ataques
     // Llamado a la función
-    secuenciaAtaque()
+    secuenciaAtaque() // CAMBIAR DE POSICIÓN
 }
 function secuenciaAtaque() {
     botones.forEach((boton) => {
