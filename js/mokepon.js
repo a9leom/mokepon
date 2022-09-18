@@ -23,6 +23,10 @@ const ataquesEnemigo = document.getElementById('ataques-enemigo')
 const contenedorTarjetas = document.getElementById('contenedor-tarjetas')
 const contenedorAtaques = document.getElementById('contenedor-ataques')
 
+// Constantes del trabajo con canvas
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
+
 // Otras variables globales
 let mokepones = [] // Variable tipo array
 let opcionDeMokepones
@@ -48,6 +52,8 @@ let inputRatigueya
 let inputLangostelvis
 let inputTucapalma
 let inputPydos
+// Variables del trabajo con canvas
+let lienzo = mapa.getContext('2d')
 
 // Cración de clases
 class Mokepon {
@@ -120,6 +126,7 @@ function iniciarJuego() {
     // Modificando el display de un elemento a través de su propiedad style
     sectionSeleccionarAtaque.style.display = 'none'
     sectionReiniciar.style.display = 'none'
+    sectionVerMapa.style.display= 'none'
 
     // Cargando el array que contiene los mokepones al momento de inciar el juego
     mokepones.forEach((mokepon) => {
@@ -150,7 +157,17 @@ function seleccionarMascotaJugador() {
     sectionSeleccionarMascota.style.display = 'none'
     
     // Se modifica el atributo display de los estilos por defecto
-    sectionSeleccionarAtaque.style.display = 'flex'
+    // sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'flex'
+    let imagenCapipepo = new Image()
+    imagenCapipepo.src = capipepo.foto
+    lienzo.drawImage(
+        imagenCapipepo,
+        20,
+        40,
+        100,
+        100
+    )
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
