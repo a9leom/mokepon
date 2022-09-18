@@ -63,6 +63,12 @@ class Mokepon {
         this.vida = vida
         this.tipo = tipo
         this.ataques = []
+        this.x = 20
+        this.y = 30
+        this.ancho = 80
+        this.alto = 80
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = foto
     }
 }
 
@@ -159,15 +165,6 @@ function seleccionarMascotaJugador() {
     // Se modifica el atributo display de los estilos por defecto
     // sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
-    let imagenCapipepo = new Image()
-    imagenCapipepo.src = capipepo.foto
-    lienzo.drawImage(
-        imagenCapipepo,
-        20,
-        40,
-        100,
-        100
-    )
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
@@ -373,6 +370,23 @@ function reiniciarJuego() {
 // Función de aletoriedad
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+// Función que pinta el Mokepón en el canvas
+function pintarPersonaje() {
+    lienzo.clearRect(0, 0, mapa.width, mapa.height) // Limpia el canvas
+    lienzo.drawImage(
+        capipepo.mapaFoto,
+        capipepo.x,
+        capipepo.y,
+        capipepo.ancho,
+        capipepo.alto
+    )
+}
+// Función que mueve al mokepón en el canvas
+function moverCapipepo() {
+    capipepo.x += 5
+    pintarPersonaje()
 }
 
 /* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado 1 */
