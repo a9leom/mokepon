@@ -55,6 +55,9 @@ let inputPydos
 // Variables del trabajo con canvas
 let lienzo = mapa.getContext('2d')
 let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = '/assets/mokemap.webp'
+let mascotaJugadorObjeto
 
 // Cración de clases
 class Mokepon {
@@ -168,9 +171,6 @@ function seleccionarMascotaJugador() {
     // Se modifica el atributo display de los estilos por defecto
     // sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
-    
-    // Función para mover el mokepón con el mouse o con teclas
-    iniciarMapa()
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
@@ -199,6 +199,8 @@ function seleccionarMascotaJugador() {
 
     // Llamando función
     seleccionarMascotaEnemigo()
+    // Función para mover el mokepón con el mouse o con teclas
+    iniciarMapa()
     // Llamado a función
     extraerAtaques(mascotaJugador)
 }
@@ -379,35 +381,42 @@ function aleatorio(min, max) {
 }
 
 // Función que pinta el Mokepón en el canvas
-function pintarPersonaje() {
-    capipepo.x += capipepo.velocidadX
-    capipepo.y += capipepo.velocidadY
+function pintarCanvas() {
+    mascotaJugadorObjeto.x += mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y += mascotaJugadorObjeto.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height) // Limpia el canvas
     lienzo.drawImage(
-        capipepo.mapaFoto,
-        capipepo.x,
-        capipepo.y,
-        capipepo.ancho,
-        capipepo.alto
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    )
+    lienzo.drawImage(
+        mascotaJugadorObjeto.mapaFoto,
+        mascotaJugadorObjeto.x,
+        mascotaJugadorObjeto.y,
+        mascotaJugadorObjeto.ancho,
+        mascotaJugadorObjeto.alto
     )
 }
 // Función que mueve al mokepón en el canvas
 function moverDerecha() {
-    capipepo.velocidadX = 5
+    mascotaJugadorObjeto.velocidadX = 5
 }
 function moverIzquierda() {
-    capipepo.velocidadX = -5
+    mascotaJugadorObjeto.velocidadX = -5
 }
 function moverAbajo() {
-    capipepo.velocidadY = 5
+    mascotaJugadorObjeto.velocidadY = 5
 }
 function moverArriba() {
-    capipepo.velocidadY = -5
+    mascotaJugadorObjeto.velocidadY = -5
 }
 
 function detenerMovimiento() {
-    capipepo.velocidadX = 0
-    capipepo.velocidadY = 0
+    mascotaJugadorObjeto.velocidadX = 0
+    mascotaJugadorObjeto.velocidadY = 0
 }
 
 function sePresionoUnaTecla(event) {
@@ -430,12 +439,25 @@ function sePresionoUnaTecla(event) {
 }
 
 function iniciarMapa() {
+    // Se modifican las dimensiones del canvas
+    mapa.width = 320
+    mapa.height = 240
+    mascotaJugadorObjeto = obtenerObjetoMascota()
     // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo
-    intervalo = setInterval(pintarPersonaje, 50)
+    intervalo = setInterval(pintarCanvas, 50)
 
     // Se añaden escuchadores de eventos para la acción de oprimir teclas
     window.addEventListener('keydown', sePresionoUnaTecla)
     window.addEventListener('keyup', detenerMovimiento)
+}
+
+function obtenerObjetoMascota() {
+    for (let i = 0; i < mokepones.length; i++) {
+        // Validación
+        if (mascotaJugador == mokepones[i].nombre) {
+            return mokepones[i]
+        }
+    }
 }
 
 /* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado 1 */
