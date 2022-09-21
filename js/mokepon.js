@@ -54,6 +54,7 @@ let inputTucapalma
 let inputPydos
 // Variables del trabajo con canvas
 let lienzo = mapa.getContext('2d')
+let intervalo
 
 // Cración de clases
 class Mokepon {
@@ -69,6 +70,8 @@ class Mokepon {
         this.alto = 80
         this.mapaFoto = new Image()
         this.mapaFoto.src = foto
+        this.velocidadX = 0
+        this.velocidadY = 0
     }
 }
 
@@ -165,6 +168,8 @@ function seleccionarMascotaJugador() {
     // Se modifica el atributo display de los estilos por defecto
     // sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
+    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo
+    intervalo = setInterval(pintarPersonaje, 50)
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
@@ -374,6 +379,8 @@ function aleatorio(min, max) {
 
 // Función que pinta el Mokepón en el canvas
 function pintarPersonaje() {
+    capipepo.x += capipepo.velocidadX
+    capipepo.y += capipepo.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height) // Limpia el canvas
     lienzo.drawImage(
         capipepo.mapaFoto,
@@ -384,9 +391,22 @@ function pintarPersonaje() {
     )
 }
 // Función que mueve al mokepón en el canvas
-function moverCapipepo() {
-    capipepo.x += 5
-    pintarPersonaje()
+function moverDerecha() {
+    capipepo.velocidadX = 5
+}
+function moverIzquierda() {
+    capipepo.velocidadX = -5
+}
+function moverAbajo() {
+    capipepo.velocidadY = 5
+}
+function moverArriba() {
+    capipepo.velocidadY = -5
+}
+
+function detenerMovimiento() {
+    capipepo.velocidadX = 0
+    capipepo.velocidadY = 0
 }
 
 /* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado 1 */
