@@ -168,8 +168,9 @@ function seleccionarMascotaJugador() {
     // Se modifica el atributo display de los estilos por defecto
     // sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
-    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo
-    intervalo = setInterval(pintarPersonaje, 50)
+    
+    // Función para mover el mokepón con el mouse o con teclas
+    iniciarMapa()
 
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
@@ -407,6 +408,34 @@ function moverArriba() {
 function detenerMovimiento() {
     capipepo.velocidadX = 0
     capipepo.velocidadY = 0
+}
+
+function sePresionoUnaTecla(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            moverArriba()
+            break
+        case 'ArrowDown':
+            moverAbajo()
+            break
+        case 'ArrowLeft':
+            moverIzquierda()
+            break
+        case 'ArrowRight':
+            moverDerecha()
+            break
+        default:
+            break
+    }
+}
+
+function iniciarMapa() {
+    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo
+    intervalo = setInterval(pintarPersonaje, 50)
+
+    // Se añaden escuchadores de eventos para la acción de oprimir teclas
+    window.addEventListener('keydown', sePresionoUnaTecla)
+    window.addEventListener('keyup', detenerMovimiento)
 }
 
 /* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado 1 */
