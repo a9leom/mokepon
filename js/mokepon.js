@@ -418,6 +418,15 @@ function pintarCanvas() {
     tucapalmaEnemigo.pintarMokepon()
     pydosEnemigo.pintarMokepon()
 
+    if (mascotaJugadorObjeto.velocidadX !== 0 || mascotaJugadorObjeto.velocidadY !== 0) {
+        revisarColision(hipodogeEnemigo)
+        revisarColision(capipepoEnemigo)
+        revisarColision(ratigueyaEnemigo)
+        revisarColision(langostelvisEnemigo)
+        revisarColision(tucapalmaEnemigo)
+        revisarColision(pydosEnemigo)
+    }
+
 }
 // Función que mueve al mokepón en el canvas
 function moverDerecha() {
@@ -476,6 +485,32 @@ function obtenerObjetoMascota() {
         if (mascotaJugador == mokepones[i].nombre) {
             return mokepones[i]
         }
+    }
+}
+
+function revisarColision(enemigo) {
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const izquierdaEnemigo = enemigo.x
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+
+    const arribaMascota = mascotaJugadorObjeto.y
+    const abajoMascota = 
+        mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const izquierdaMascota = mascotaJugadorObjeto.x
+    const derechaMascota = 
+        mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+
+    if (
+        abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ) {
+        return
+    } else {
+        detenerMovimiento()
+        alert('Hay colisión' + enemigo.nombre)
     }
 }
 
