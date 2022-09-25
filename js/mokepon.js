@@ -69,8 +69,8 @@ class Mokepon {
         this.ataques = []
         this.x = x
         this.y = y
-        this.ancho = 40
-        this.alto = 40
+        this.ancho = 35
+        this.alto = 35
         this.mapaFoto = new Image()
         this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
@@ -98,7 +98,7 @@ let tucapalma =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_att
 let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
 // Creación objetos del enemigo
 let hipodogeEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp', 80, 120)
-let capipepoEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp', 150, 95)
+let capipepoEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp', 160, 95)
 let ratigueyaEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp', 200, 190)
 let langostelvisEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png', 275, 115)
 let tucapalmaEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png', 5, 90)
@@ -112,6 +112,7 @@ hipodoge.ataques.push(
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🌱', id: 'boton-tierra'}
 )
+hipodogeEnemigo.ataques = hipodoge.ataques
 capipepo.ataques.push(
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌱', id: 'boton-tierra'},
@@ -119,6 +120,7 @@ capipepo.ataques.push(
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🔥', id: 'boton-fuego'}
 )
+capipepoEnemigo.ataques = capipepo.ataques
 ratigueya.ataques.push(
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🔥', id: 'boton-fuego'},
@@ -126,6 +128,7 @@ ratigueya.ataques.push(
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌱', id: 'boton-tierra'}
 )
+ratigueyaEnemigo.ataques = ratigueya.ataques
 langostelvis.ataques.push(
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🔥', id: 'boton-fuego'},
@@ -133,6 +136,7 @@ langostelvis.ataques.push(
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌱', id: 'boton-tierra'}
 )
+langostelvisEnemigo.ataques = langostelvis.ataques
 tucapalma.ataques.push(
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌊', id: 'boton-agua'},
@@ -140,6 +144,7 @@ tucapalma.ataques.push(
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🔥', id: 'boton-fuego'}
 )
+tucapalmaEnemigo.ataques = tucapalma.ataques
 pydos.ataques.push(
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌱', id: 'boton-tierra'},
@@ -147,6 +152,7 @@ pydos.ataques.push(
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🌊', id: 'boton-agua'}
 )
+pydosEnemigo.ataques = pydos.ataques
 
 // Populamos un array con cada uno de los Mokepones creados
 mokepones.push(hipodoge, capipepo, ratigueya, langostelvis, tucapalma, pydos)
@@ -185,9 +191,7 @@ function iniciarJuego() {
 function seleccionarMascotaJugador() {
     // Modificando el display de un elemento a través de su propiedad style
     sectionSeleccionarMascota.style.display = 'none'
-    
     // Se modifica el atributo display de los estilos por defecto
-    // sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
 
     if (inputHipodoge.checked) {
@@ -213,25 +217,22 @@ function seleccionarMascotaJugador() {
         // Si el jugador no selecciona mascota se muestra la sección elegir mascota y se bloquea la de elegir ataque
         sectionSeleccionarMascota.style.display = 'flex'
         sectionSeleccionarAtaque.style.display = 'none'
+        sectionVerMapa.style.display = 'none'
     }
 
-    // Llamando función
-    seleccionarMascotaEnemigo()
     // Función para mover el mokepón con el mouse o con teclas
     iniciarMapa()
-    // Llamado a función
-    extraerAtaques(mascotaJugador)
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
-function seleccionarMascotaEnemigo() {
-    // Se cambian los parámetros de la función para que se ajusten a los índices del array
-    let mascotaAleatorio = aleatorio(0, mokepones.length - 1)
+function seleccionarMascotaEnemigo(enemigo) {
     // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
-    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatorio].nombre
+    spanMascotaEnemigo.innerHTML = enemigo.nombre
     // Se guardan los ataques que que tiene el mokepón asignado al enemigo
-    ataquesMokeponEnemigo = mokepones[mascotaAleatorio].ataques
+    ataquesMokeponEnemigo = enemigo.ataques
     // Se guarda el mokepón del enemigo
-    mokeponEnemigo = mokepones[mascotaAleatorio]
+    mokeponEnemigo = enemigo
+    // Llamado a función
+    extraerAtaques(mascotaJugador)
 }
 // Función que busca los ataques del mokepón seleccionado
 function extraerAtaques(mascotaJugador) {
@@ -261,7 +262,7 @@ function validacionTipo(mokeponJugador, mokeponEnemigo) {
         ataquesMokeponEnemigo.unshift(
             {nombre: mokeponEnemigo.ataques[0].nombre, id: mokeponEnemigo.ataques[0].id}
         )
-        console.log(ataquesMokeponEnemigo)
+        console.log('ataques mokepón enemigo', ataquesMokeponEnemigo)
     }
 }
 // Fución que inyecta los ataques en el HTML
@@ -327,6 +328,12 @@ function ataqueAleatorioEnemigo() {
 // Función que valida si están completos los arreglos de los ataques
 function iniciarPelea() {
     if (ataqueJugador.length === 5) {
+        botones.forEach((boton) => {
+            if (boton.disabled == false) {
+                boton.disabled = true
+                boton.style.background = '#112F58'
+            }
+        })
         // Llamado función
         combate()
     }
@@ -471,7 +478,7 @@ function iniciarMapa() {
     mapa.width = 320
     mapa.height = 240
     mascotaJugadorObjeto = obtenerObjetoMascota()
-    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo
+    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo. La función retorna un ID del intervalo con la que se puede remover esta función
     intervalo = setInterval(pintarCanvas, 50)
 
     // Se añaden escuchadores de eventos para la acción de oprimir teclas
@@ -510,7 +517,10 @@ function revisarColision(enemigo) {
         return
     } else {
         detenerMovimiento()
-        alert('Hay colisión' + enemigo.nombre)
+        clearInterval(intervalo)
+        sectionSeleccionarAtaque.style.display = 'flex'
+        sectionVerMapa.style.display = 'none'
+        seleccionarMascotaEnemigo(enemigo)
     }
 }
 
