@@ -113,9 +113,26 @@ input:checked + label {
     text-align: center;
 }
 
+#ver-mapa button {
+    width: 80px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 10px 0;
+}
+
 /* Media Queries */
 @media (max-width: 440px) {
     .tarjetas {
         flex-wrap: wrap;
+    }
+}
+@media (max-width: 320px) {
+    #ver-mapa div {
+        display: flex;
+        flex-direction: column;
     }
 }
