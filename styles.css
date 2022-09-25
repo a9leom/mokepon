@@ -112,9 +112,6 @@ input:checked + label {
     justify-content: center;
     text-align: center;
 }
-#mapa {
-    border: 2px solid white;
-}
 
 /* Media Queries */
 @media (max-width: 440px) {

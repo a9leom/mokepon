@@ -26,6 +26,7 @@ const contenedorAtaques = document.getElementById('contenedor-ataques')
 // Constantes del trabajo con canvas
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
+const anchoMaximoMapa = 350
 
 // Otras variables globales
 let mokepones = [] // Variable tipo array
@@ -58,19 +59,29 @@ let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = '/assets/mokemap.webp'
 let mascotaJugadorObjeto
+let anchoMapa = window.innerWidth - 20
+
+if (anchoMapa > anchoMaximoMapa) {
+    anchoMapa = anchoMaximoMapa - 20
+}
+
+let alturaBuscada = anchoMapa * 600 / 800
+
+mapa.width = anchoMapa
+mapa.height = alturaBuscada
 
 // Cración de clases
 class Mokepon {
-    constructor(nombre, foto, vida, tipo, fotoMapa, x = 10, y = 10) {
+    constructor(nombre, foto, vida, tipo, fotoMapa,) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.tipo = tipo
         this.ataques = []
-        this.x = x
-        this.y = y
         this.ancho = 35
         this.alto = 35
+        this.x = aleatorio(0, mapa.width - this.ancho)
+        this.y = aleatorio(0, mapa.height - this.alto)
         this.mapaFoto = new Image()
         this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
@@ -94,15 +105,15 @@ let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attac
 let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
 let ratigueya = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
 let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
-let tucapalma =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
+let tucapalma = new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
 let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
 // Creación objetos del enemigo
-let hipodogeEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp', 80, 120)
-let capipepoEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp', 160, 95)
-let ratigueyaEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp', 200, 190)
-let langostelvisEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png', 275, 115)
-let tucapalmaEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png', 5, 90)
-let pydosEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png', 100, 0)
+let hipodogeEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
+let capipepoEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
+let ratigueyaEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
+let langostelvisEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
+let tucapalmaEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
+let pydosEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
 
 // Agregando ataques a cada mokepón mediante objetos literales
 hipodoge.ataques.push(
@@ -475,8 +486,6 @@ function sePresionoUnaTecla(event) {
 
 function iniciarMapa() {
     // Se modifican las dimensiones del canvas
-    mapa.width = 320
-    mapa.height = 240
     mascotaJugadorObjeto = obtenerObjetoMascota()
     // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo. La función retorna un ID del intervalo con la que se puede remover esta función
     intervalo = setInterval(pintarCanvas, 50)
