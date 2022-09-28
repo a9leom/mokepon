@@ -197,6 +197,22 @@ function iniciarJuego() {
     // Escuchando evento de los elementos de HTML
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
     botonReiniciar.addEventListener('click', reiniciarJuego)
+
+    // Llamado a función
+    unirseAlJuego()
+}
+// Invoca el servicio de nodejs
+function unirseAlJuego() {
+    // Petición al servidor a través de fetch
+    fetch('http://localhost:8080/unirse')
+        .then(function (res) {
+            if (res.ok) {
+                res.text()
+                    .then(function (respuesta) {
+                        console.log(respuesta)
+                    })                
+            }
+        })
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
 function seleccionarMascotaJugador() {
