@@ -462,6 +462,10 @@ function pintarCanvas() {
         mapa.height
     )
     mascotaJugadorObjeto.pintarMokepon()
+
+    // Llamdo función
+    enviarPosicion(mascotaJugadorObjeto.x,  mascotaJugadorObjeto.y)
+
     hipodogeEnemigo.pintarMokepon()
     capipepoEnemigo.pintarMokepon()
     ratigueyaEnemigo.pintarMokepon()
@@ -479,6 +483,20 @@ function pintarCanvas() {
     }
 
 }
+// Se envían las coordenadas del mokepón del jugador
+function enviarPosicion(x, y) {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+}
+
 // Función que mueve al mokepón en el canvas
 function moverDerecha() {
     mascotaJugadorObjeto.velocidadX = 5

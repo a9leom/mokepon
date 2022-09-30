@@ -24,6 +24,11 @@ class Jugador {
     asignarMokepon(mokepon) {
         this.mokepon = mokepon
     }
+
+    actualizarPosicion(x, y) {
+        this.x = x
+        this.y = y
+    }
 }
 
 class Mokepon {
@@ -60,7 +65,7 @@ app.post('/mokepon/:jugadorId', (req, res) => {
     // Extrae el index de la lista de jugadores de acuerdo a una validación
     const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
 
-    // valida que el jugador exista
+    // valida que el jugador exista (0 o > es que existe)
     if (jugadorIndex >= 0) {
         // asigna al jugador existente en la lista, a través de un método de la clase, el mokepón correspondiente
         jugadores[jugadorIndex].asignarMokepon(mokepon)
@@ -71,6 +76,24 @@ app.post('/mokepon/:jugadorId', (req, res) => {
     // Termina la petición
     res.end()
 })
+
+// Servicion que actualiza las coordenadas del jugador
+app.post('/mokepon/:jugadorId/posicion', (req, res) => {
+    const jugadorId = req.params.jugadorId || ''
+    // se obtiene coordendas 'x' y 'y'
+    const x = req.body.x || 0
+    const y = req.body.y || 0
+
+    const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+    if (jugadorIndex >= 0) {
+        // Se actualizan las coordenadas 'x' y 'y' mediante un método de la clase
+        jugadores[jugadorIndex].actualizarPosicion(x, y)
+    }
+
+    // Se responde un dato vacío para terminar la solicitúd
+    res.end()
+})
+
 // Función que mantiene al servidor escuchando las peticiones por medio de un puerto
 app.listen(8080, () => {
     console.log('Servidor funcionando')
