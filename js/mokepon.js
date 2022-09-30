@@ -60,6 +60,8 @@ let mapaBackground = new Image()
 mapaBackground.src = '/assets/mokemap.webp'
 let mascotaJugadorObjeto
 let anchoMapa = window.innerWidth - 20
+// Variables para trabajar con el backend
+let jugadorId = null
 
 if (anchoMapa > anchoMaximoMapa) {
     anchoMapa = anchoMaximoMapa - 20
@@ -210,6 +212,7 @@ function unirseAlJuego() {
                 res.text()
                     .then(function (respuesta) {
                         console.log(respuesta)
+                        jugadorId = respuesta
                     })                
             }
         })
@@ -247,8 +250,22 @@ function seleccionarMascotaJugador() {
         sectionVerMapa.style.display = 'none'
     }
 
+    // Llamado a función
+    seleccionarMokepon(mascotaJugador)
     // Función para mover el mokepón con el mouse o con teclas
     iniciarMapa()
+}
+// función que envía el id del jugador y el mokepón que seleccionó
+function seleccionarMokepon(mascotaJugador) {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            mokepon: mascotaJugador
+        })
+    })
 }
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo(enemigo) {
