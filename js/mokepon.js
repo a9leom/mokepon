@@ -62,6 +62,7 @@ let mascotaJugadorObjeto
 let anchoMapa = window.innerWidth - 20
 // Variables para trabajar con el backend
 let jugadorId = null
+let mokeponesEnemigos = []
 
 if (anchoMapa > anchoMaximoMapa) {
     anchoMapa = anchoMaximoMapa - 20
@@ -461,13 +462,11 @@ function pintarCanvas() {
 
     // Llamdo función
     enviarPosicion(mascotaJugadorObjeto.x,  mascotaJugadorObjeto.y)
-
-    hipodogeEnemigo.pintarMokepon()
-    capipepoEnemigo.pintarMokepon()
-    ratigueyaEnemigo.pintarMokepon()
-    langostelvisEnemigo.pintarMokepon()
-    tucapalmaEnemigo.pintarMokepon()
-    pydosEnemigo.pintarMokepon()
+    
+    // Se dibujan los mokepones enemigos
+    mokeponesEnemigos.forEach(function (mokepon) {
+        mokepon.pintarMokepon()
+    })
 
     if (mascotaJugadorObjeto.velocidadX !== 0 || mascotaJugadorObjeto.velocidadY !== 0) {
         revisarColision(hipodogeEnemigo)
@@ -491,40 +490,39 @@ function enviarPosicion(x, y) {
             y
         })
     })
-        .then(function (res) {
-            if (res.ok) {
-                res.json()
-                    // ({enemigos}) extrae la variable específica de la respuesta
-                    .then(function ({enemigos}) {
-                        console.log(enemigos)
-                        // Se reccorre la lista de enemigos del servidor para ver los mokepones usados
-                        enemigos.forEach(function (enemigo) {
-                            let mokeponEnemigo = null
-                            const mokeponNombre = enemigo.mokepon.nombre || ''
-                            if (mokeponNombre === 'Hipodoge') {
-                                mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
-                            } else if (mokeponNombre === 'Capipepo') {
-                                mokeponEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
-                            } else if (mokeponNombre === 'Ratigüeya') {
-                                mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
-                            } else if (mokeponNombre === 'Langostelvis') {
-                                mokeponEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
-                            } else if (mokeponNombre === 'Tucapalma') {
-                                mokeponEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
-                            } else if (mokeponNombre === 'Pydos') {
-                                mokeponEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
-                            }
-                            
-                            // Se actualiza la coordenada del mokepón enemigo
-                            mokeponEnemigo.x = enemigo.x
-                            mokeponEnemigo.y = enemigo.y
-                            mokeponEnemigo.pintarMokepon()
+    .then(function (res) {
+        if (res.ok) {
+            res.json()
+                // ({enemigos}) extrae la variable específica de la respuesta
+            .then(function ({enemigos}) {
+                console.log(enemigos)
+                // El método map() crea un nuevo array con los resultados de la llamada a la función indicada aplicados a cada uno de sus elementos.
+                mokeponesEnemigos = enemigos.map(function (enemigo) {
+                    let mokeponEnemigo = null
+                    const mokeponNombre = enemigo.mokepon.nombre || ''
+                    if (mokeponNombre === 'Hipodoge') {
+                        mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
+                    } else if (mokeponNombre === 'Capipepo') {
+                        mokeponEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
+                    } else if (mokeponNombre === 'Ratigüeya') {
+                        mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
+                    } else if (mokeponNombre === 'Langostelvis') {
+                        mokeponEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
+                    } else if (mokeponNombre === 'Tucapalma') {
+                        mokeponEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
+                    } else if (mokeponNombre === 'Pydos') {
+                        mokeponEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
+                    }
+                    
+                    // Se actualiza la coordenada del mokepón enemigo
+                    mokeponEnemigo.x = enemigo.x
+                    mokeponEnemigo.y = enemigo.y
 
-                        })
-                        // Creación objetos del enemigo
-                    })
-            }
-        })
+                    return mokeponEnemigo
+                })
+            })
+        }
+    })
 }
 
 // Función que mueve al mokepón en el canvas
