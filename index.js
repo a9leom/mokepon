@@ -90,8 +90,13 @@ app.post('/mokepon/:jugadorId/posicion', (req, res) => {
         jugadores[jugadorIndex].actualizarPosicion(x, y)
     }
 
-    // Se responde un dato vacío para terminar la solicitúd
-    res.end()
+    // Se filtran todos lo jugadores, menos el actual
+    const enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id)
+
+    // Se configura la respuesta para que envíe las coordenadas de todos los demás jugadores, menos del que hace la solicitud. En express solo se pueden devolver json
+    res.send({
+        enemigos
+    })
 })
 
 // Función que mantiene al servidor escuchando las peticiones por medio de un puerto

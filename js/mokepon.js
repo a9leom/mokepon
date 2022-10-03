@@ -74,7 +74,8 @@ mapa.height = alturaBuscada
 
 // Cración de clases
 class Mokepon {
-    constructor(nombre, foto, vida, tipo, fotoMapa,) {
+    constructor(nombre, foto, vida, tipo, fotoMapa, id = null) {
+        this.id = id
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
@@ -109,63 +110,58 @@ let ratigueya = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_a
 let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
 let tucapalma = new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
 let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
-// Creación objetos del enemigo
-let hipodogeEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
-let capipepoEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
-let ratigueyaEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
-let langostelvisEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
-let tucapalmaEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
-let pydosEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
 
-// Agregando ataques a cada mokepón mediante objetos literales
-hipodoge.ataques.push(
+// Constantes para guardar los ataques de los mokepones
+const HIPODOGE_ATAQUES = [
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🌱', id: 'boton-tierra'}
-)
-hipodogeEnemigo.ataques = hipodoge.ataques
-capipepo.ataques.push(
+]
+const CAPIPEPO_ATAQUES = [
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🔥', id: 'boton-fuego'}
-)
-capipepoEnemigo.ataques = capipepo.ataques
-ratigueya.ataques.push(
+]
+const RATIGUEYA_ATAQUES = [
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌱', id: 'boton-tierra'}
-)
-ratigueyaEnemigo.ataques = ratigueya.ataques
-langostelvis.ataques.push(
+]
+const LANGOSTELVIS_ATAQUES = [
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌱', id: 'boton-tierra'}
-)
-langostelvisEnemigo.ataques = langostelvis.ataques
-tucapalma.ataques.push(
+]
+const TUCAPLAMA_ATAQUES = [    
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌊', id: 'boton-agua'},
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🔥', id: 'boton-fuego'}
-)
-tucapalmaEnemigo.ataques = tucapalma.ataques
-pydos.ataques.push(
+]
+const PYDOS_ATAQUES = [
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🌱', id: 'boton-tierra'},
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🔥', id: 'boton-fuego'},
     { nombre: '🌊', id: 'boton-agua'}
-)
-pydosEnemigo.ataques = pydos.ataques
+]
+
+// ... agregando ataques a cada mokepón sin comportase como una lista
+hipodoge.ataques.push(...HIPODOGE_ATAQUES)
+capipepo.ataques.push(...CAPIPEPO_ATAQUES)
+ratigueya.ataques.push(...RATIGUEYA_ATAQUES)
+langostelvis.ataques.push(...LANGOSTELVIS_ATAQUES)
+tucapalma.ataques.push(...TUCAPLAMA_ATAQUES)
+pydos.ataques.push(...PYDOS_ATAQUES)
 
 // Populamos un array con cada uno de los Mokepones creados
 mokepones.push(hipodoge, capipepo, ratigueya, langostelvis, tucapalma, pydos)
@@ -495,6 +491,40 @@ function enviarPosicion(x, y) {
             y
         })
     })
+        .then(function (res) {
+            if (res.ok) {
+                res.json()
+                    // ({enemigos}) extrae la variable específica de la respuesta
+                    .then(function ({enemigos}) {
+                        console.log(enemigos)
+                        // Se reccorre la lista de enemigos del servidor para ver los mokepones usados
+                        enemigos.forEach(function (enemigo) {
+                            let mokeponEnemigo = null
+                            const mokeponNombre = enemigo.mokepon.nombre || ''
+                            if (mokeponNombre === 'Hipodoge') {
+                                mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
+                            } else if (mokeponNombre === 'Capipepo') {
+                                mokeponEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
+                            } else if (mokeponNombre === 'Ratigüeya') {
+                                mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
+                            } else if (mokeponNombre === 'Langostelvis') {
+                                mokeponEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
+                            } else if (mokeponNombre === 'Tucapalma') {
+                                mokeponEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
+                            } else if (mokeponNombre === 'Pydos') {
+                                mokeponEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
+                            }
+                            
+                            // Se actualiza la coordenada del mokepón enemigo
+                            mokeponEnemigo.x = enemigo.x
+                            mokeponEnemigo.y = enemigo.y
+                            mokeponEnemigo.pintarMokepon()
+
+                        })
+                        // Creación objetos del enemigo
+                    })
+            }
+        })
 }
 
 // Función que mueve al mokepón en el canvas
