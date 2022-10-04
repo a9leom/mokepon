@@ -29,6 +29,10 @@ class Jugador {
         this.x = x
         this.y = y
     }
+
+    asignarAtaques(ataques) {
+        this.ataques = ataques
+    }
 }
 
 class Mokepon {
@@ -97,6 +101,24 @@ app.post('/mokepon/:jugadorId/posicion', (req, res) => {
     res.send({
         enemigos
     })
+})
+
+app.post('/mokepon/:jugadorId/ataques', (req, res) => {
+    // Se extrae el id que viene en la solicitud como parámetro
+    const jugadorId = req.params.jugadorId || ''
+    // Extrae la información del paquete de datos tipo JSON (los atques del mokepón del jugador)
+    const ataques = req.body.ataques || ''
+    
+    // Extrae el index de la lista de jugadores de acuerdo a una validación
+    const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+
+    // valida que el jugador exista (0 o > es que existe)
+    if (jugadorIndex >= 0) {
+        // asigna al jugador existente en la lista, a través de un método de la clase, el mokepón correspondiente
+        jugadores[jugadorIndex].asignarAtaques(ataques)
+    }
+    // Termina la petición
+    res.end()
 })
 
 // Función que mantiene al servidor escuchando las peticiones por medio de un puerto

@@ -63,6 +63,7 @@ let anchoMapa = window.innerWidth - 20
 // Variables para trabajar con el backend
 let jugadorId = null
 let mokeponesEnemigos = []
+let enemigoId = null
 
 if (anchoMapa > anchoMaximoMapa) {
     anchoMapa = anchoMaximoMapa - 20
@@ -193,12 +194,12 @@ function iniciarJuego() {
     inputTucapalma = document.getElementById('Tucapalma')
     inputPydos = document.getElementById('Pydos')
 
+    // Llamado a función
+    unirseAlJuego()
+
     // Escuchando evento de los elementos de HTML
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
     botonReiniciar.addEventListener('click', reiniciarJuego)
-
-    // Llamado a función
-    unirseAlJuego()
 }
 // Invoca el servicio de nodejs
 function unirseAlJuego() {
@@ -246,7 +247,7 @@ function seleccionarMascotaJugador() {
         sectionSeleccionarAtaque.style.display = 'none'
         sectionVerMapa.style.display = 'none'
     }
-
+    
     // Llamado a función
     seleccionarMokepon(mascotaJugador)
     // Función para mover el mokepón con el mouse o con teclas
@@ -264,6 +265,70 @@ function seleccionarMokepon(mascotaJugador) {
         })
     })
 }
+function iniciarMapa() {
+    // Se modifican las dimensiones del canvas
+    mascotaJugadorObjeto = obtenerObjetoMascota()
+    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo. La función retorna un ID del intervalo con la que se puede remover esta función
+    intervalo = setInterval(pintarCanvas, 50)
+
+    // Se añaden escuchadores de eventos para la acción de oprimir teclas
+    window.addEventListener('keydown', sePresionoUnaTecla)
+    window.addEventListener('keyup', detenerMovimiento)
+}
+// Función que pinta el background, el Mokepón del jugador y los mokepones enemigos en el canvas
+function pintarCanvas() {
+    mascotaJugadorObjeto.x += mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y += mascotaJugadorObjeto.velocidadY
+    lienzo.clearRect(0, 0, mapa.width, mapa.height) // Limpia el canvas
+    // background
+    lienzo.drawImage(
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    )
+    mascotaJugadorObjeto.pintarMokepon()
+
+    // Llamdo función
+    enviarPosicion(mascotaJugadorObjeto.x,  mascotaJugadorObjeto.y)
+    
+    // Se dibujan los mokepones enemigos
+    mokeponesEnemigos.forEach(function (mokepon) {
+        mokepon.pintarMokepon()
+        revisarColision(mokepon)
+    })
+}
+function revisarColision(enemigo) {
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const izquierdaEnemigo = enemigo.x
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+
+    const arribaMascota = mascotaJugadorObjeto.y
+    const abajoMascota = 
+        mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const izquierdaMascota = mascotaJugadorObjeto.x
+    const derechaMascota = 
+        mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+
+    if (
+        abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ) {
+        return
+    } else {
+        detenerMovimiento()
+        clearInterval(intervalo)
+
+        enemigoId = enemigo.id
+        sectionSeleccionarAtaque.style.display = 'flex'
+        sectionVerMapa.style.display = 'none'
+        seleccionarMascotaEnemigo(enemigo)
+    }
+}
 // Función que se ejecuta justo después que el jugador seleccione mascota
 function seleccionarMascotaEnemigo(enemigo) {
     // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
@@ -275,6 +340,67 @@ function seleccionarMascotaEnemigo(enemigo) {
     // Llamado a función
     extraerAtaques(mascotaJugador)
 }
+// Se envían las coordenadas del mokepón del jugador
+function enviarPosicion(x, y) {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+    .then(function (res) {
+        if (res.ok) {
+            res.json()
+                // ({enemigos}) extrae la variable específica de la respuesta
+            .then(function ({enemigos}) {
+                console.log(enemigos)
+                // El método map() crea un nuevo array con los resultados de la llamada a la función indicada aplicados a cada uno de sus elementos.
+                mokeponesEnemigos = enemigos.map(function (enemigo) {
+                    let mokeponEnemigo = null
+                    const mokeponNombre = enemigo.mokepon.nombre || ''
+                    if (mokeponNombre === 'Hipodoge') {
+                        mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp', enemigo.id)
+                        mokeponEnemigo.ataques.push(...HIPODOGE_ATAQUES)
+                    } else if (mokeponNombre === 'Capipepo') {
+                        mokeponEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp', enemigo.id)
+                        mokeponEnemigo.ataques.push(...CAPIPEPO_ATAQUES)
+                    } else if (mokeponNombre === 'Ratigüeya') {
+                        mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp', enemigo.id)
+                        mokeponEnemigo.ataques.push(...RATIGUEYA_ATAQUES)
+                    } else if (mokeponNombre === 'Langostelvis') {
+                        mokeponEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png', enemigo.id)
+                        mokeponEnemigo.ataques.push(...LANGOSTELVIS_ATAQUES)
+                    } else if (mokeponNombre === 'Tucapalma') {
+                        mokeponEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png', enemigo.id)
+                        mokeponEnemigo.ataques.push(...TUCAPLAMA_ATAQUES)
+                    } else if (mokeponNombre === 'Pydos') {
+                        mokeponEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png', enemigo.id)
+                        mokeponEnemigo.ataques.push(...PYDOS_ATAQUES)
+                    }
+                    
+                    // Se actualiza la coordenada del mokepón enemigo
+                    mokeponEnemigo.x = enemigo.x
+                    mokeponEnemigo.y = enemigo.y
+
+                    return mokeponEnemigo
+                })
+            })
+        }
+    })
+}
+function obtenerObjetoMascota() {
+    for (let i = 0; i < mokepones.length; i++) {
+        // Validación
+        if (mascotaJugador == mokepones[i].nombre) {
+            return mokepones[i]
+        }
+    }
+}
+
 // Función que busca los ataques del mokepón seleccionado
 function extraerAtaques(mascotaJugador) {
     for (let i = 0; i < mokepones.length; i++) {
@@ -341,11 +467,28 @@ function secuenciaAtaque() {
                 boton.style.background = '#112F58'
                 boton.disabled = true
             }
-            // Llamado a la función
-            ataqueAleatorioEnemigo()
+
+            // Se envían una vez se han seleccionado los 5 ataques
+            if (ataqueJugador.length === 5) {
+                // Se envía el ataque seleccionado por el jugador al backend
+                enviarAtaques()
+            }
         })
     })
 }
+// Se envían los ataques del jugador al servidor
+function enviarAtaques() {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/ataques`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            ataques: ataqueJugador
+        })
+    })
+}
+
 // Función para asignar ataque enemigo
 function ataqueAleatorioEnemigo() {
     // Se obtiene un número aleatorio, que servirá como índice, acorde al rango de ataques
@@ -446,85 +589,6 @@ function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-// Función que pinta el Mokepón en el canvas
-function pintarCanvas() {
-    mascotaJugadorObjeto.x += mascotaJugadorObjeto.velocidadX
-    mascotaJugadorObjeto.y += mascotaJugadorObjeto.velocidadY
-    lienzo.clearRect(0, 0, mapa.width, mapa.height) // Limpia el canvas
-    lienzo.drawImage(
-        mapaBackground,
-        0,
-        0,
-        mapa.width,
-        mapa.height
-    )
-    mascotaJugadorObjeto.pintarMokepon()
-
-    // Llamdo función
-    enviarPosicion(mascotaJugadorObjeto.x,  mascotaJugadorObjeto.y)
-    
-    // Se dibujan los mokepones enemigos
-    mokeponesEnemigos.forEach(function (mokepon) {
-        mokepon.pintarMokepon()
-    })
-
-    if (mascotaJugadorObjeto.velocidadX !== 0 || mascotaJugadorObjeto.velocidadY !== 0) {
-        revisarColision(hipodogeEnemigo)
-        revisarColision(capipepoEnemigo)
-        revisarColision(ratigueyaEnemigo)
-        revisarColision(langostelvisEnemigo)
-        revisarColision(tucapalmaEnemigo)
-        revisarColision(pydosEnemigo)
-    }
-
-}
-// Se envían las coordenadas del mokepón del jugador
-function enviarPosicion(x, y) {
-    fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            x,
-            y
-        })
-    })
-    .then(function (res) {
-        if (res.ok) {
-            res.json()
-                // ({enemigos}) extrae la variable específica de la respuesta
-            .then(function ({enemigos}) {
-                console.log(enemigos)
-                // El método map() crea un nuevo array con los resultados de la llamada a la función indicada aplicados a cada uno de sus elementos.
-                mokeponesEnemigos = enemigos.map(function (enemigo) {
-                    let mokeponEnemigo = null
-                    const mokeponNombre = enemigo.mokepon.nombre || ''
-                    if (mokeponNombre === 'Hipodoge') {
-                        mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
-                    } else if (mokeponNombre === 'Capipepo') {
-                        mokeponEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
-                    } else if (mokeponNombre === 'Ratigüeya') {
-                        mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
-                    } else if (mokeponNombre === 'Langostelvis') {
-                        mokeponEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
-                    } else if (mokeponNombre === 'Tucapalma') {
-                        mokeponEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
-                    } else if (mokeponNombre === 'Pydos') {
-                        mokeponEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
-                    }
-                    
-                    // Se actualiza la coordenada del mokepón enemigo
-                    mokeponEnemigo.x = enemigo.x
-                    mokeponEnemigo.y = enemigo.y
-
-                    return mokeponEnemigo
-                })
-            })
-        }
-    })
-}
-
 // Función que mueve al mokepón en el canvas
 function moverDerecha() {
     mascotaJugadorObjeto.velocidadX = 5
@@ -560,55 +624,6 @@ function sePresionoUnaTecla(event) {
             break
         default:
             break
-    }
-}
-
-function iniciarMapa() {
-    // Se modifican las dimensiones del canvas
-    mascotaJugadorObjeto = obtenerObjetoMascota()
-    // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo. La función retorna un ID del intervalo con la que se puede remover esta función
-    intervalo = setInterval(pintarCanvas, 50)
-
-    // Se añaden escuchadores de eventos para la acción de oprimir teclas
-    window.addEventListener('keydown', sePresionoUnaTecla)
-    window.addEventListener('keyup', detenerMovimiento)
-}
-
-function obtenerObjetoMascota() {
-    for (let i = 0; i < mokepones.length; i++) {
-        // Validación
-        if (mascotaJugador == mokepones[i].nombre) {
-            return mokepones[i]
-        }
-    }
-}
-
-function revisarColision(enemigo) {
-    const arribaEnemigo = enemigo.y
-    const abajoEnemigo = enemigo.y + enemigo.alto
-    const izquierdaEnemigo = enemigo.x
-    const derechaEnemigo = enemigo.x + enemigo.ancho
-
-    const arribaMascota = mascotaJugadorObjeto.y
-    const abajoMascota = 
-        mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
-    const izquierdaMascota = mascotaJugadorObjeto.x
-    const derechaMascota = 
-        mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
-
-    if (
-        abajoMascota < arribaEnemigo ||
-        arribaMascota > abajoEnemigo ||
-        derechaMascota < izquierdaEnemigo ||
-        izquierdaMascota > derechaEnemigo
-    ) {
-        return
-    } else {
-        detenerMovimiento()
-        clearInterval(intervalo)
-        sectionSeleccionarAtaque.style.display = 'flex'
-        sectionVerMapa.style.display = 'none'
-        seleccionarMascotaEnemigo(enemigo)
     }
 }
 
