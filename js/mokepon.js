@@ -201,7 +201,7 @@ function iniciarJuego() {
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
     botonReiniciar.addEventListener('click', reiniciarJuego)
 }
-// Invoca el servicio de nodejs
+// Invoca el servicio de nodejs para crear un id
 function unirseAlJuego() {
     // Petición al servidor a través de fetch
     fetch('http://localhost:8080/unirse')
@@ -250,10 +250,11 @@ function seleccionarMascotaJugador() {
     
     // Llamado a función
     seleccionarMokepon(mascotaJugador)
-    // Función para mover el mokepón con el mouse o con teclas
+    // Llamado función
     iniciarMapa()
 }
-// función que envía el id del jugador y el mokepón que seleccionó
+
+// función que envía el id del jugador y el mokepón que seleccionó al backend
 function seleccionarMokepon(mascotaJugador) {
     fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
         method: 'post',
@@ -265,8 +266,9 @@ function seleccionarMokepon(mascotaJugador) {
         })
     })
 }
+
 function iniciarMapa() {
-    // Se modifican las dimensiones del canvas
+    // Se guarda el objeto mokepón en la variable
     mascotaJugadorObjeto = obtenerObjetoMascota()
     // setIterval es una función que llama a otra función para que se ejecute cada cierto tiempo. La función retorna un ID del intervalo con la que se puede remover esta función
     intervalo = setInterval(pintarCanvas, 50)
@@ -275,6 +277,17 @@ function iniciarMapa() {
     window.addEventListener('keydown', sePresionoUnaTecla)
     window.addEventListener('keyup', detenerMovimiento)
 }
+
+// Función que devuelve el mokepón (el objeto) seleccionado por el jugador
+function obtenerObjetoMascota() {
+    for (let i = 0; i < mokepones.length; i++) {
+        // Validación
+        if (mascotaJugador == mokepones[i].nombre) {
+            return mokepones[i]
+        }
+    }
+}
+
 // Función que pinta el background, el Mokepón del jugador y los mokepones enemigos en el canvas
 function pintarCanvas() {
     mascotaJugadorObjeto.x += mascotaJugadorObjeto.velocidadX
@@ -288,59 +301,20 @@ function pintarCanvas() {
         mapa.width,
         mapa.height
     )
+    // Dibuja el mokepón del jugador en el canvas
     mascotaJugadorObjeto.pintarMokepon()
 
     // Llamdo función
     enviarPosicion(mascotaJugadorObjeto.x,  mascotaJugadorObjeto.y)
     
-    // Se dibujan los mokepones enemigos
+    // Se dibujan los mokepones enemigos y se revisa si hubo colisión
     mokeponesEnemigos.forEach(function (mokepon) {
         mokepon.pintarMokepon()
         revisarColision(mokepon)
     })
 }
-function revisarColision(enemigo) {
-    const arribaEnemigo = enemigo.y
-    const abajoEnemigo = enemigo.y + enemigo.alto
-    const izquierdaEnemigo = enemigo.x
-    const derechaEnemigo = enemigo.x + enemigo.ancho
 
-    const arribaMascota = mascotaJugadorObjeto.y
-    const abajoMascota = 
-        mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
-    const izquierdaMascota = mascotaJugadorObjeto.x
-    const derechaMascota = 
-        mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
-
-    if (
-        abajoMascota < arribaEnemigo ||
-        arribaMascota > abajoEnemigo ||
-        derechaMascota < izquierdaEnemigo ||
-        izquierdaMascota > derechaEnemigo
-    ) {
-        return
-    } else {
-        detenerMovimiento()
-        clearInterval(intervalo)
-
-        enemigoId = enemigo.id
-        sectionSeleccionarAtaque.style.display = 'flex'
-        sectionVerMapa.style.display = 'none'
-        seleccionarMascotaEnemigo(enemigo)
-    }
-}
-// Función que se ejecuta justo después que el jugador seleccione mascota
-function seleccionarMascotaEnemigo(enemigo) {
-    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
-    spanMascotaEnemigo.innerHTML = enemigo.nombre
-    // Se guardan los ataques que que tiene el mokepón asignado al enemigo
-    ataquesMokeponEnemigo = enemigo.ataques
-    // Se guarda el mokepón del enemigo
-    mokeponEnemigo = enemigo
-    // Llamado a función
-    extraerAtaques(mascotaJugador)
-}
-// Se envían las coordenadas del mokepón del jugador
+// Se envían las coordenadas x\y del mokepón del jugador al backend y se reciben las de los enemigos
 function enviarPosicion(x, y) {
     fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
         method: 'post',
@@ -355,7 +329,7 @@ function enviarPosicion(x, y) {
     .then(function (res) {
         if (res.ok) {
             res.json()
-                // ({enemigos}) extrae la variable específica de la respuesta
+            // ({enemigos}) extrae la variable específica de la respuesta
             .then(function ({enemigos}) {
                 console.log(enemigos)
                 // El método map() crea un nuevo array con los resultados de la llamada a la función indicada aplicados a cada uno de sus elementos.
@@ -392,13 +366,48 @@ function enviarPosicion(x, y) {
         }
     })
 }
-function obtenerObjetoMascota() {
-    for (let i = 0; i < mokepones.length; i++) {
-        // Validación
-        if (mascotaJugador == mokepones[i].nombre) {
-            return mokepones[i]
-        }
+
+// Función que evalúa si las coordenadas del mokepón del jugador se chocán con las de algún enemigo
+function revisarColision(enemigo) {
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const izquierdaEnemigo = enemigo.x
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+
+    const arribaMascota = mascotaJugadorObjeto.y
+    const abajoMascota = 
+        mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const izquierdaMascota = mascotaJugadorObjeto.x
+    const derechaMascota = 
+        mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+
+    if (
+        abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ) {
+        return
+    } else {
+        detenerMovimiento()
+        clearInterval(intervalo)
+
+        enemigoId = enemigo.id
+        sectionSeleccionarAtaque.style.display = 'flex'
+        sectionVerMapa.style.display = 'none'
+        seleccionarMascotaEnemigo(enemigo)
     }
+}
+// Función que se ejecuta justo después que el jugador seleccione mascota
+function seleccionarMascotaEnemigo(enemigo) {
+    // Se inyecta, en el HTML, el nombre del mokepón ubicado en el índice señalado
+    spanMascotaEnemigo.innerHTML = enemigo.nombre
+    // Se guardan los ataques que que tiene el mokepón enemigo
+    ataquesMokeponEnemigo = enemigo.ataques
+    // Se guarda el mokepón del enemigo
+    mokeponEnemigo = enemigo
+    // Llamado a función
+    extraerAtaques(mascotaJugador)
 }
 
 // Función que busca los ataques del mokepón seleccionado
@@ -421,11 +430,13 @@ function validacionTipo(mokeponJugador, mokeponEnemigo) {
     if (mokeponJugador.tipo === mokeponEnemigo.tipo) {
         console.log('Es un empate en el tipo')
     } else if ((mokeponJugador.tipo === 'FUEGO' && mokeponEnemigo.tipo === 'TIERRA') || (mokeponJugador.tipo === 'AGUA' && mokeponEnemigo.tipo === 'FUEGO') || (mokeponJugador.tipo === 'TIERRA' && mokeponEnemigo.tipo === 'AGUA')) {
+        // Se añade un ataque al principo del array ataques
         ataques.unshift(
             {nombre: mokeponJugador.ataques[0].nombre, id: mokeponJugador.ataques[0].id}
         )
-        console.log(ataques)
+        console.log('ataques jugador', ataques)
     } else {
+        // Se añade un ataque al principo del array ataques del enemigo
         ataquesMokeponEnemigo.unshift(
             {nombre: mokeponEnemigo.ataques[0].nombre, id: mokeponEnemigo.ataques[0].id}
         )
@@ -470,6 +481,12 @@ function secuenciaAtaque() {
 
             // Se envían una vez se han seleccionado los 5 ataques
             if (ataqueJugador.length === 5) {
+                botones.forEach((boton) => {
+                    if (boton.disabled == false) {
+                        boton.disabled = true
+                        boton.style.background = '#112F58'
+                    }
+                })
                 // Se envía el ataque seleccionado por el jugador al backend
                 enviarAtaques()
             }
@@ -487,6 +504,23 @@ function enviarAtaques() {
             ataques: ataqueJugador
         })
     })
+
+    intervalo = setInterval(obtenerAtaques, 50)
+}
+// Función que pide el orden de los ataques del enemigo
+function obtenerAtaques() {
+    fetch(`http://localhost:8080/mokepon/${enemigoId}/ataques`)
+        .then(function (res) {
+            if (res.ok) {
+                res.json()
+                    .then(function ({ataques}) {
+                        if (ataques.length === 5) {
+                            ataqueEnemigo = ataques
+                            combate()
+                        }
+                    })
+            }
+        })
 }
 
 // Función para asignar ataque enemigo
@@ -524,6 +558,9 @@ function iniciarPelea() {
 }
 // Función combate
 function combate() {
+    // Se detiene el temporizador
+    clearInterval(intervalo)
+
     // Para recorrer ambos arreglos
     for (let index = 0; index < ataqueJugador.length; index++) {
         if (ataqueJugador[index] === ataqueEnemigo[index]) {
@@ -580,10 +617,7 @@ function crearMensajeFinal(resultadoFinal) {
     // Se habilita sección de botón reiniciar
     sectionReiniciar.style.display = 'block'
 }
-// Función para reiniciar juego
-function reiniciarJuego() {
-    location.reload()
-}
+
 // Función de aletoriedad
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -625,6 +659,11 @@ function sePresionoUnaTecla(event) {
         default:
             break
     }
+}
+
+// Función para reiniciar juego
+function reiniciarJuego() {
+    location.reload()
 }
 
 /* Escuchar evento del objeto window. Con load pedimos al navegador que avise cunado el HTML ya haya cargado 1 */

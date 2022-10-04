@@ -41,7 +41,7 @@ class Mokepon {
     }
 }
 
-// Función que realiza algo cada que el cliente solicita (get) un recurso
+// Función que crea un id cada que el cliente solicita (get) un recurso
 app.get('/unirse', (req, res) => {
     // Se crea el id del jugador nuevo
     const id = `${Math.random()}` // template string
@@ -59,6 +59,7 @@ app.get('/unirse', (req, res) => {
     res.send(id)
 })
 
+// Se asigna al jugador, con la id recibida, el mokepón recibido
 app.post('/mokepon/:jugadorId', (req, res) => {
     // Se extrae el id que viene en la solicitud como parámetro
     const jugadorId = req.params.jugadorId || ''
@@ -81,7 +82,7 @@ app.post('/mokepon/:jugadorId', (req, res) => {
     res.end()
 })
 
-// Servicion que actualiza las coordenadas del jugador
+// Servicion que actualiza las coordenadas del jugador y envía la lista de enemigos
 app.post('/mokepon/:jugadorId/posicion', (req, res) => {
     const jugadorId = req.params.jugadorId || ''
     // se obtiene coordendas 'x' y 'y'
@@ -119,6 +120,16 @@ app.post('/mokepon/:jugadorId/ataques', (req, res) => {
     }
     // Termina la petición
     res.end()
+})
+
+// Servicio que devuelve el orden de los ataques del enemigo
+app.get('/mokepon/:jugadorId/ataques', (req, res) => {
+    // Se extrae el id que viene en la solicitud como parámetro
+    const jugadorId = req.params.jugadorId || ''
+    const jugador = jugadores.find((jugador) => jugador.id === jugadorId)
+    res.send({
+        ataques: jugador.ataques || []
+    })
 })
 
 // Función que mantiene al servidor escuchando las peticiones por medio de un puerto
