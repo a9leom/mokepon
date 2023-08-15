@@ -57,7 +57,7 @@ let inputPydos
 let lienzo = mapa.getContext('2d')
 let intervalo
 let mapaBackground = new Image()
-mapaBackground.src = '/assets/mokemap.webp'
+mapaBackground.src = 'https://static.platzi.com/media/user_upload/mokemap-ca51ea18-7ac8-492f-be96-6181d766a99d.jpg'
 let mascotaJugadorObjeto
 let anchoMapa = window.innerWidth - 20
 // Variables para trabajar con el backend
@@ -106,12 +106,12 @@ class Mokepon {
 }
 
 // Creación objetos
-let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp')
-let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp')
-let ratigueya = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp')
-let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png')
-let tucapalma = new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png')
-let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png')
+let hipodoge = new Mokepon('Hipodoge', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/mokepons_mokepon_hipodoge_attack.png', 5, 'AGUA', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/hipodoge.png')
+let capipepo = new Mokepon('Capipepo', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_capipepo_attack.png', 5, 'TIERRA', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/capipepo.png')
+let ratigueya = new Mokepon('Ratigüeya', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/mokepons_mokepon_ratigueya_attack.png', 5, 'FUEGO', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/ratigueya.png')
+let langostelvis = new Mokepon('Langostelvis', 'https://ragosorio.github.io/Mokepon/png/langostelvis.png', 5, 'FUEGO', 'https://ragosorio.github.io/Mokepon/png/langostelvis.png')
+let tucapalma = new Mokepon('Tucapalma', 'https://ragosorio.github.io/Mokepon/png/tucapalma.png', 5, 'AGUA', 'https://ragosorio.github.io/Mokepon/png/tucapalma.png')
+let pydos = new Mokepon('Pydos', 'https://ragosorio.github.io/Mokepon/png/paidos.png', 5, 'TIERRA', 'https://ragosorio.github.io/Mokepon/png/paidos.png')
 
 // Constantes para guardar los ataques de los mokepones
 const HIPODOGE_ATAQUES = [
@@ -340,7 +340,7 @@ function enviarPosicion(x, y) {
                         mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp', enemigo.id)
                         mokeponEnemigo.ataques.push(...HIPODOGE_ATAQUES)
                     } else if (mokeponNombre === 'Capipepo') {
-                        mokeponEnemigo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5, 'TIERRA', '/assets/capipepo.webp', enemigo.id)
+                        mokeponEnemigo = new Mokepon('Capipepo', 'https://imgur.com/tbvuvci', 5, 'TIERRA', '/assets/capipepo.webp', enemigo.id)
                         mokeponEnemigo.ataques.push(...CAPIPEPO_ATAQUES)
                     } else if (mokeponNombre === 'Ratigüeya') {
                         mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp', enemigo.id)
