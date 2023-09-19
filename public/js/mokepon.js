@@ -204,7 +204,7 @@ function iniciarJuego() {
 // Invoca el servicio de nodejs para crear un id
 function unirseAlJuego() {
     // Petición al servidor a través de fetch
-    fetch('http://localhost:8080/unirse')
+    fetch('http://192.168.0.104:8080/unirse')
         .then(function (res) {
             if (res.ok) {
                 res.text()
@@ -217,11 +217,6 @@ function unirseAlJuego() {
 }
 // Función a ejecutar tras dar click al botón seleccionar (mascota)
 function seleccionarMascotaJugador() {
-    // Modificando el display de un elemento a través de su propiedad style
-    sectionSeleccionarMascota.style.display = 'none'
-    // Se modifica el atributo display de los estilos por defecto
-    sectionVerMapa.style.display = 'flex'
-
     if (inputHipodoge.checked) {
         spanMascotaJugador.innerHTML = inputHipodoge.id
         mascotaJugador = inputHipodoge.id
@@ -242,21 +237,22 @@ function seleccionarMascotaJugador() {
         mascotaJugador = inputPydos.id
     } else {
         alert('Debes seleccionar una mascota')
-        // Si el jugador no selecciona mascota se muestra la sección elegir mascota y se bloquea la de elegir ataque
-        sectionSeleccionarMascota.style.display = 'flex'
-        sectionSeleccionarAtaque.style.display = 'none'
-        sectionVerMapa.style.display = 'none'
+        return
     }
     
+    // Modificando el display de un elemento a través de su propiedad style
+    sectionSeleccionarMascota.style.display = 'none'
     // Llamado a función
     seleccionarMokepon(mascotaJugador)
+    // Se modifica el atributo display de los estilos por defecto
+    sectionVerMapa.style.display = 'flex'
     // Llamado función
     iniciarMapa()
 }
 
 // función que envía el id del jugador y el mokepón que seleccionó al backend
 function seleccionarMokepon(mascotaJugador) {
-    fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
+    fetch(`http://192.168.0.104:8080/mokepon/${jugadorId}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -316,7 +312,7 @@ function pintarCanvas() {
 
 // Se envían las coordenadas x\y del mokepón del jugador al backend y se reciben las de los enemigos
 function enviarPosicion(x, y) {
-    fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+    fetch(`http://192.168.0.104:8080/mokepon/${jugadorId}/posicion`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -337,28 +333,28 @@ function enviarPosicion(x, y) {
                     let mokeponEnemigo = null
                     const mokeponNombre = enemigo.mokepon.nombre || ''
                     if (mokeponNombre === 'Hipodoge') {
-                        mokeponEnemigo = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5, 'AGUA', '/assets/hipodoge.webp', enemigo.id)
+                        mokeponEnemigo = new Mokepon('Hipodoge', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/mokepons_mokepon_hipodoge_attack.png', 5, 'AGUA', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/hipodoge.png', enemigo.id)
                         mokeponEnemigo.ataques.push(...HIPODOGE_ATAQUES)
                     } else if (mokeponNombre === 'Capipepo') {
-                        mokeponEnemigo = new Mokepon('Capipepo', 'https://imgur.com/tbvuvci', 5, 'TIERRA', '/assets/capipepo.webp', enemigo.id)
+                        mokeponEnemigo = new Mokepon('Capipepo', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_capipepo_attack.png', 5, 'TIERRA', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/capipepo.png', enemigo.id)
                         mokeponEnemigo.ataques.push(...CAPIPEPO_ATAQUES)
                     } else if (mokeponNombre === 'Ratigüeya') {
-                        mokeponEnemigo = new Mokepon('Ratigüeya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5, 'FUEGO', '/assets/ratigueya.webp', enemigo.id)
+                        mokeponEnemigo = new Mokepon('Ratigüeya', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/mokepons_mokepon_ratigueya_attack.png', 5, 'FUEGO', 'https://static.platzi.com/media/tmp/class-files/github/curso-programacion-basica/curso-programacion-basica-61-movimiento-derecha-capipepo/programar/mokepon/assets/ratigueya.png', enemigo.id)
                         mokeponEnemigo.ataques.push(...RATIGUEYA_ATAQUES)
                     } else if (mokeponNombre === 'Langostelvis') {
-                        mokeponEnemigo = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.png', 5, 'FUEGO', '/assets/mokepons_mokepon_langostelvis_attack.png', enemigo.id)
+                        mokeponEnemigo = new Mokepon('Langostelvis', 'https://ragosorio.github.io/Mokepon/png/langostelvis.png', 5, 'FUEGO', 'https://ragosorio.github.io/Mokepon/png/langostelvis.png', enemigo.id)
                         mokeponEnemigo.ataques.push(...LANGOSTELVIS_ATAQUES)
                     } else if (mokeponNombre === 'Tucapalma') {
-                        mokeponEnemigo =new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.png', 5, 'AGUA', '/assets/mokepons_mokepon_tucapalma_attack.png', enemigo.id)
+                        mokeponEnemigo =new Mokepon('Tucapalma', 'https://ragosorio.github.io/Mokepon/png/tucapalma.png', 5, 'AGUA', 'https://ragosorio.github.io/Mokepon/png/tucapalma.png', enemigo.id)
                         mokeponEnemigo.ataques.push(...TUCAPLAMA_ATAQUES)
                     } else if (mokeponNombre === 'Pydos') {
-                        mokeponEnemigo = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.png', 5, 'TIERRA', '/assets/mokepons_mokepon_pydos_attack.png', enemigo.id)
+                        mokeponEnemigo = new Mokepon('Pydos', 'https://ragosorio.github.io/Mokepon/png/paidos.png', 5, 'TIERRA', 'https://ragosorio.github.io/Mokepon/png/paidos.png', enemigo.id)
                         mokeponEnemigo.ataques.push(...PYDOS_ATAQUES)
                     }
                     
                     // Se actualiza la coordenada del mokepón enemigo
-                    mokeponEnemigo.x = enemigo.x
-                    mokeponEnemigo.y = enemigo.y
+                    mokeponEnemigo.x = enemigo.x || 0
+                    mokeponEnemigo.y = enemigo.y || 0
 
                     return mokeponEnemigo
                 })
@@ -495,7 +491,7 @@ function secuenciaAtaque() {
 }
 // Se envían los ataques del jugador al servidor
 function enviarAtaques() {
-    fetch(`http://localhost:8080/mokepon/${jugadorId}/ataques`, {
+    fetch(`http://192.168.0.104:8080/mokepon/${jugadorId}/ataques`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -509,7 +505,7 @@ function enviarAtaques() {
 }
 // Función que pide el orden de los ataques del enemigo
 function obtenerAtaques() {
-    fetch(`http://localhost:8080/mokepon/${enemigoId}/ataques`)
+    fetch(`http://192.168.0.104:8080/mokepon/${enemigoId}/ataques`)
         .then(function (res) {
             if (res.ok) {
                 res.json()

@@ -7,6 +7,8 @@ const cors = require('cors')
 
 // Variable que almacena la aplicación. Se genera una instancia del servidor
 const app = express()
+// Guardar archivos estáticos para mostrar al usuario
+app.use(express.static('public'))
 
 // Se le indica al servidor, que usa express, que use la librería cors
 app.use(cors())
@@ -108,7 +110,7 @@ app.post('/mokepon/:jugadorId/ataques', (req, res) => {
     // Se extrae el id que viene en la solicitud como parámetro
     const jugadorId = req.params.jugadorId || ''
     // Extrae la información del paquete de datos tipo JSON (los atques del mokepón del jugador)
-    const ataques = req.body.ataques || ''
+    const ataques = req.body.ataques || []
     
     // Extrae el index de la lista de jugadores de acuerdo a una validación
     const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
